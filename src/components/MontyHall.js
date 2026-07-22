@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { DoorClosed, RotateCcw, Play, BarChart, Sparkles, Check, X } from 'lucide-react';
+import { DoorClosed, RotateCcw, Play, BarChart, Sparkles, Check, X, ChevronDown } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import StatCard from './StatCard.js';
 import ExplainerDrawer from './ExplainerDrawer.js';
 import { runMontyHallSimulationAsync } from '../utils/simulationEngine.js';
 import { playClickSound, playDoorOpenSound, playWinFanfare } from '../utils/sound.js';
 import { Bar } from 'react-chartjs-2';
-export default function MontyHall() {
+export default function MontyHall({
+  lang = 'bn'
+}) {
   const [gameState, setGameState] = useState('pick');
   const [carDoor, setCarDoor] = useState(0);
   const [userPick, setUserPick] = useState(null);
@@ -22,6 +24,7 @@ export default function MontyHall() {
     stayWinRate: 33.3,
     totalTrials: 10000
   });
+  const isBn = lang === 'bn';
   useEffect(() => {
     resetGame();
   }, []);
@@ -82,11 +85,11 @@ export default function MontyHall() {
     });
   };
   const chartData = {
-    labels: ['সুইচ করার কৌশল', 'একই দরজায় থাকার কৌশল'],
+    labels: isBn ? ['সুইচ করার কৌশল', 'একই দরজায় থাকার কৌশল'] : ['Switch Strategy', 'Stay Strategy'],
     datasets: [{
-      label: 'জেতার হার (%)',
+      label: isBn ? 'জেতার হার (%)' : 'Win Rate (%)',
       data: [simStats.switchWinRate, simStats.stayWinRate],
-      backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(139, 92, 246, 0.7)'],
+      backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(139, 92, 246, 0.8)'],
       borderColor: ['#3B82F6', '#8B5CF6'],
       borderWidth: 2,
       borderRadius: 12
@@ -101,7 +104,7 @@ export default function MontyHall() {
       },
       tooltip: {
         callbacks: {
-          label: ctx => `জেতার হার: ${ctx.parsed.y}%`
+          label: ctx => `${ctx.parsed.y}%`
         }
       }
     },
@@ -119,68 +122,54 @@ export default function MontyHall() {
     id: "monty",
     className: "py-6 sm:py-8 scroll-mt-24"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "glass-card rounded-3xl p-4 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden"
+    className: "glass-card rounded-3xl p-4 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden space-y-6"
   }, /*#__PURE__*/React.createElement("div", {
     className: "absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"
   }), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8"
+    className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-3"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "p-2 sm:p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400"
+    className: "p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400"
   }, /*#__PURE__*/React.createElement(DoorClosed, {
-    className: "w-5 h-5 sm:w-6 sm:h-6"
+    className: "w-6 h-6"
   })), /*#__PURE__*/React.createElement("h2", {
     className: "text-xl sm:text-3xl font-extrabold text-slate-100 tracking-tight"
-  }, "\u09AE\u09A8\u09CD\u099F\u09BF \u09B9\u09B2 \u09AA\u09CD\u09B0\u09AC\u09B2\u09C7\u09AE (Monty Hall Problem)")), /*#__PURE__*/React.createElement("p", {
-    className: "text-slate-400 text-xs sm:text-sm mt-1.5 font-medium"
-  }, "\u09B8\u09B0\u09CD\u09AC\u09A6\u09BE \u09B8\u09C1\u09AF\u09CB\u0997 \u09A6\u09C7\u0993\u09DF\u09BE \u09B9\u09B2\u09C7 \u09A6\u09B0\u099C\u09BE \u09AA\u09B0\u09BF\u09AC\u09B0\u09CD\u09A4\u09A8 \u0995\u09B0\u09C1\u09A8! \u09B8\u09C1\u0987\u099A \u0995\u09B0\u09B2\u09C7 \u099C\u09C7\u09A4\u09BE\u09B0 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE ", /*#__PURE__*/React.createElement("span", {
-    className: "text-purple-400 font-bold"
-  }, "\u09E7/\u09E9 (\u09E9\u09E9.\u09E9%)"), " \u09A5\u09C7\u0995\u09C7 \u09A6\u09CD\u09AC\u09BF\u0997\u09C1\u09A3 \u09AC\u09C7\u09DC\u09C7 ", /*#__PURE__*/React.createElement("span", {
-    className: "text-blue-400 font-bold"
-  }, "\u09E8/\u09E9 (\u09EC\u09EC.\u09ED%)"), " \u09B9\u09DF\u0964")), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-2.5 sm:space-x-3 w-full sm:w-auto"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, isBn ? '🚗 গেম শো ফাঁদ (The Game Show Trap)' : '🚗 The Game Show Trap')), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-400 text-xs sm:text-sm mt-1 font-medium"
+  }, isBn ? 'আপনি কি দরজা পরিবর্তন করবেন নাকি নিজের প্রথম পছন্দে থাকবেন?' : 'Would you SWITCH doors or STAY with your initial pick?')), /*#__PURE__*/React.createElement("button", {
     onClick: resetGame,
-    className: "flex-1 sm:flex-none flex items-center justify-center space-x-2 px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition-all duration-200 touch-manipulation"
+    className: "flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition-all touch-manipulation"
   }, /*#__PURE__*/React.createElement(RotateCcw, {
     className: "w-4 h-4"
-  }), /*#__PURE__*/React.createElement("span", null, "\u09AA\u09C1\u09A8\u09B0\u09BE\u09DF \u09B6\u09C1\u09B0\u09C1")), /*#__PURE__*/React.createElement("button", {
-    onClick: handleRun10kSims,
-    disabled: isSimulating,
-    className: "flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow-purple transition-all duration-200 disabled:opacity-50 touch-manipulation"
-  }, /*#__PURE__*/React.createElement(Play, {
-    className: `w-4 h-4 fill-current ${isSimulating ? 'animate-spin' : ''}`
-  }), /*#__PURE__*/React.createElement("span", null, isSimulating ? `${simProgress}%` : '১০,০০০ সিমুলেশন')))), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8"
+  }), /*#__PURE__*/React.createElement("span", null, isBn ? 'নতুন গেম খেলুন' : 'Play New Game'))), /*#__PURE__*/React.createElement("div", {
+    className: "glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "lg:col-span-7 glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "mb-4 sm:mb-6 p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center"
+    className: "p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center"
   }, gameState === 'pick' && /*#__PURE__*/React.createElement("p", {
-    className: "text-xs sm:text-base font-bold text-blue-400 flex items-center justify-center space-x-2"
+    className: "text-sm sm:text-base font-bold text-blue-400 flex items-center justify-center space-x-2"
   }, /*#__PURE__*/React.createElement(Sparkles, {
-    className: "w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
-  }), /*#__PURE__*/React.createElement("span", null, "\u09A7\u09BE\u09AA \u09E7: \u09AF\u09C7\u0995\u09CB\u09A8\u09CB \u09E7\u099F\u09BF \u09A6\u09B0\u099C\u09BE\u09DF \u0995\u09CD\u09B2\u09BF\u0995 \u0995\u09B0\u09C7 \u0986\u09AA\u09A8\u09BE\u09B0 \u09AA\u099B\u09A8\u09CD\u09A6\u09C7\u09B0 \u09A6\u09B0\u099C\u09BE \u09AC\u09C7\u099B\u09C7 \u09A8\u09BF\u09A8!")), gameState === 'revealed' && /*#__PURE__*/React.createElement("div", {
-    className: "space-y-2.5 sm:space-y-3"
+    className: "w-5 h-5 flex-shrink-0"
+  }), /*#__PURE__*/React.createElement("span", null, isBn ? 'ধাপ ১: আপনার ভাগ্যবান দরজাটি বেছে নিন!' : 'Step 1: Choose your lucky door!')), gameState === 'revealed' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-3"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-xs sm:text-sm font-bold text-amber-400"
-  }, "\uD83D\uDC10 \u09B9\u09CB\u09B8\u09CD\u099F \u09A6\u09B0\u099C\u09BE #", hostRevealedDoor + 1, " \u0996\u09C1\u09B2\u09C7 \u098F\u0995\u099F\u09BF \u099B\u09BE\u0997\u09B2 \u09A6\u09C7\u0996\u09BF\u09DF\u09C7\u099B\u09C7\u09A8! \u0986\u09AA\u09A8\u09BF \u0995\u09BF \u09A6\u09B0\u099C\u09BE \u09B8\u09C1\u0987\u099A \u0995\u09B0\u09AC\u09C7\u09A8?"), /*#__PURE__*/React.createElement("div", {
+  }, isBn ? `🐐 হোস্ট দরজা #${hostRevealedDoor + 1} খুলে ছাগল দেখিয়েছেন! আপনি কি সুইচ করবেন নাকি থাকবেন?` : `🐐 Host opens Door #${hostRevealedDoor + 1} showing a Goat! Will you SWITCH or STAY?`), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row items-center justify-center gap-2"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => handleFinalDecision(true),
-    className: "w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm shadow-glow-blue transition-all touch-manipulation"
-  }, "\u09A6\u09B0\u099C\u09BE \u09B8\u09C1\u0987\u099A \u0995\u09B0\u09C1\u09A8! (\u09AA\u09CD\u09B0\u09B8\u09CD\u09A4\u09BE\u09AC\u09BF\u09A4 - \u09EC\u09EC.\u09ED%)"), /*#__PURE__*/React.createElement("button", {
+    className: "w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm shadow-glow-blue transition-all touch-manipulation"
+  }, isBn ? 'দরজা সুইচ করুন! (প্রস্তাবিত - ৬৬.৭%)' : 'SWITCH DOOR! (Recommended)'), /*#__PURE__*/React.createElement("button", {
     onClick: () => handleFinalDecision(false),
-    className: "w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs sm:text-sm border border-slate-700 touch-manipulation"
-  }, "\u09AA\u09CD\u09B0\u09A5\u09AE \u09AA\u099B\u09A8\u09CD\u09A6\u09A4\u09C7\u0987 \u09A5\u09BE\u0995\u09C1\u09A8 (\u09E9\u09E9.\u09E9%)"))), gameState === 'finished' && /*#__PURE__*/React.createElement("div", {
+    className: "w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs sm:text-sm border border-slate-700 touch-manipulation"
+  }, isBn ? 'প্রথম পছন্দতেই থাকুন (৩৩.৩%)' : 'STAY WITH INITIAL PICK'))), gameState === 'finished' && /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row items-center justify-center gap-2"
   }, /*#__PURE__*/React.createElement("span", {
-    className: `text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl ${isWin ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-red-500/20 text-red-300 border border-red-500/40'}`
-  }, isWin ? '🎉 অভিনন্দন! আপনি নতুন স্পোর্টস কার 🚗 জিতেছেন!' : '🐐 দুর্ভাগ্য! আপনি ছাগল পেয়েছেন!'), /*#__PURE__*/React.createElement("button", {
+    className: `text-xs sm:text-sm font-black px-4 py-1.5 rounded-xl ${isWin ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-red-500/20 text-red-300 border border-red-500/40'}`
+  }, isWin ? isBn ? '🎉 অভিনন্দন! আপনি নতুন স্পোর্টস কার 🚗 জিতেছেন!' : '🎉 CONGRATULATIONS! YOU WON THE SPORTS CAR 🚗!' : isBn ? '🐐 দুর্ভাগ্য! আপনি ছাগল পেয়েছেন!' : '🐐 BAD LUCK! YOU GOT A GOAT!'), /*#__PURE__*/React.createElement("button", {
     onClick: resetGame,
     className: "px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs"
-  }, "\u0986\u09AC\u09BE\u09B0 \u0996\u09C7\u09B2\u09C1\u09A8"))), /*#__PURE__*/React.createElement("div", {
+  }, isBn ? 'আবার খেলুন' : 'Play Again'))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-3 gap-2.5 sm:gap-6 my-2 sm:my-4"
   }, [0, 1, 2].map(doorIdx => {
     const isUserInitialPick = userPick === doorIdx;
@@ -191,17 +180,17 @@ export default function MontyHall() {
     if (gameState === 'revealed' && isHostRevealed) {
       doorContent = {
         icon: '🐐',
-        label: 'ছাগল',
+        label: isBn ? 'ছাগল' : 'GOAT',
         bg: 'bg-amber-950/60 border-amber-600/40'
       };
     } else if (gameState === 'finished') {
       doorContent = isCar ? {
         icon: '🚗',
-        label: 'নতুন কার!',
+        label: isBn ? 'নতুন কার!' : 'SPORTS CAR!',
         bg: 'bg-emerald-950/80 border-emerald-500 shadow-glow-emerald'
       } : {
         icon: '🐐',
-        label: 'ছাগল',
+        label: isBn ? 'ছাগল' : 'GOAT',
         bg: 'bg-slate-900 border-slate-800 opacity-60'
       };
     }
@@ -213,9 +202,9 @@ export default function MontyHall() {
       className: "flex items-center justify-between w-full"
     }, /*#__PURE__*/React.createElement("span", {
       className: "font-mono text-[10px] sm:text-xs font-bold text-slate-400"
-    }, "\u09A6\u09B0\u099C\u09BE #", doorIdx + 1), isUserInitialPick && /*#__PURE__*/React.createElement("span", {
+    }, "DOOR #", doorIdx + 1), isUserInitialPick && /*#__PURE__*/React.createElement("span", {
       className: "text-[8px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40"
-    }, "\u09AA\u099B\u09A8\u09CD\u09A6")), /*#__PURE__*/React.createElement("div", {
+    }, isBn ? 'পছন্দ' : 'Pick')), /*#__PURE__*/React.createElement("div", {
       className: "my-2 sm:my-6 text-center"
     }, doorContent ? /*#__PURE__*/React.createElement("div", {
       className: "space-y-1 sm:space-y-2 animate-bounce"
@@ -229,75 +218,59 @@ export default function MontyHall() {
       className: "w-10 h-10 sm:w-16 sm:h-16 text-slate-500"
     }), /*#__PURE__*/React.createElement("span", {
       className: "text-[10px] sm:text-xs text-slate-400 font-medium"
-    }, "\u0995\u09CD\u09B2\u09BF\u0995 \u0995\u09B0\u09C1\u09A8"))), /*#__PURE__*/React.createElement("div", {
+    }, isBn ? 'ক্লিক করুন' : 'Click to pick'))), /*#__PURE__*/React.createElement("div", {
       className: "w-full text-center"
     }, isFinalChosen && gameState === 'finished' && /*#__PURE__*/React.createElement("span", {
       className: `text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:py-1 rounded-lg ${isWin ? 'bg-emerald-500 text-slate-950' : 'bg-red-500 text-white'}`
-    }, isWin ? 'বিজয়ী!' : 'ছাগল')));
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3 sm:gap-4 mt-4"
+    }, isWin ? isBn ? 'বিজয়ী!' : 'WINNER!' : isBn ? 'ছাগল' : 'GOAT')));
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-4"
   }, /*#__PURE__*/React.createElement(StatCard, {
-    label: "\u09B8\u09C1\u0987\u099A \u0995\u09B0\u09B2\u09C7 \u099C\u09C7\u09A4\u09BE\u09B0 \u09B9\u09BE\u09B0",
+    label: isBn ? "সুইচ করলে জেতার হার" : "Switch Strategy Win Chance",
     value: `${simStats.switchWinRate}%`,
-    subtext: "~\u09EC\u09EC.\u09ED% \u0997\u09BE\u09A3\u09BF\u09A4\u09BF\u0995 \u09A8\u09BF\u09B6\u09CD\u099A\u09DF\u09A4\u09BE",
+    subtext: isBn ? "সর্বদা সুইচ করলে ৬৬.৭% জয়ের সুযোগ!" : "Always switching doubles your win chance!",
     icon: Check,
     color: "blue",
     highlight: true
   }), /*#__PURE__*/React.createElement(StatCard, {
-    label: "\u098F\u0995\u0987 \u09A6\u09B0\u099C\u09BE\u09DF \u09A5\u09BE\u0995\u09B2\u09C7 \u09B9\u09BE\u09B0",
+    label: isBn ? "একই দরজায় থাকলে জেতার হার" : "Stay Strategy Win Chance",
     value: `${simStats.stayWinRate}%`,
-    subtext: "~\u09E9\u09E9.\u09E9% \u0997\u09BE\u09A3\u09BF\u09A4\u09BF\u0995 \u099C\u09C7\u09A4\u09BE\u09B0 \u09B8\u09C1\u09AF\u09CB\u0997",
+    subtext: isBn ? "প্রথম পছন্দে থাকলে মাত্র ৩৩.৩% সুযোগ!" : "Staying keeps only your initial 1/3 luck!",
     icon: X,
     color: "purple"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "lg:col-span-5 glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between mb-4"
-  }, /*#__PURE__*/React.createElement("h3", {
-    className: "text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-2"
-  }, /*#__PURE__*/React.createElement(BarChart, {
-    className: "w-4 h-4 text-purple-400"
-  }), /*#__PURE__*/React.createElement("span", null, "\u09E7\u09E6,\u09E6\u09E6\u09E6 \u099F\u09CD\u09B0\u09BE\u09AF\u09BC\u09BE\u09B2 \u0985\u099F\u09CB-\u09B8\u09BF\u09AE\u09C1\u09B2\u09C7\u09B6\u09A8")), /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] sm:text-xs font-mono font-bold text-slate-400 bg-slate-900 px-2 py-1 rounded-lg border border-slate-800"
-  }, "\u09E7\u09E6,\u09E6\u09E6\u09E6 \u09B8\u09BF\u09AE\u09C1\u09B2\u09C7\u09B6\u09A8")), isSimulating && /*#__PURE__*/React.createElement("div", {
-    className: "mb-4"
+  })), /*#__PURE__*/React.createElement("details", {
+    className: "group border border-slate-800/80 rounded-2xl bg-slate-900/60 overflow-hidden"
+  }, /*#__PURE__*/React.createElement("summary", {
+    className: "px-5 py-4 flex items-center justify-between cursor-pointer font-bold text-sm text-slate-200 hover:bg-slate-800/60 transition-colors"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "flex items-center space-x-2"
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCCA"), /*#__PURE__*/React.createElement("span", null, isBn ? '১০,০০০ অটো-সিমুলেশন প্রমাণ ও গ্রাফ দেখুন (Deep Dive)' : 'View 10,000 Auto-Simulation Proof & Chart')), /*#__PURE__*/React.createElement(ChevronDown, {
+    className: "w-4 h-4 transition-transform group-open:rotate-180 text-slate-400"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "p-5 border-t border-slate-800 space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between text-xs text-slate-400 font-mono mb-1"
-  }, /*#__PURE__*/React.createElement("span", null, "\u09B8\u09BF\u09AE\u09C1\u09B2\u09C7\u09B6\u09A8 \u099A\u09B2\u099B\u09C7..."), /*#__PURE__*/React.createElement("span", null, simProgress, "%")), /*#__PURE__*/React.createElement("div", {
-    className: "w-full h-2 bg-slate-800 rounded-full overflow-hidden"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-150",
-    style: {
-      width: `${simProgress}%`
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "min-h-[200px] sm:min-h-[260px] relative my-2"
+    className: "flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "text-xs font-bold text-slate-300 uppercase tracking-wider"
+  }, isBn ? '১০,০০০ ট্রায়াল সিমুলেশন রেজাল্ট' : '10,000 Trial Simulation Engine'), /*#__PURE__*/React.createElement("button", {
+    onClick: handleRun10kSims,
+    disabled: isSimulating,
+    className: "flex items-center space-x-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-glow-purple"
+  }, /*#__PURE__*/React.createElement(Play, {
+    className: `w-3.5 h-3.5 fill-current ${isSimulating ? 'animate-spin' : ''}`
+  }), /*#__PURE__*/React.createElement("span", null, isSimulating ? `${simProgress}%` : isBn ? 'সিমুলেশন চালান' : 'Run 10,000 Sims'))), /*#__PURE__*/React.createElement("div", {
+    className: "h-[220px] relative"
   }, /*#__PURE__*/React.createElement(Bar, {
     data: chartData,
     options: chartOptions
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "p-3 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-400 space-y-1.5 font-medium mt-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between text-slate-200 font-bold"
-  }, /*#__PURE__*/React.createElement("span", null, "\u09B8\u09C1\u0987\u099A \u0995\u09B0\u09C7 \u099C\u09DF:"), /*#__PURE__*/React.createElement("span", {
-    className: "text-blue-400 font-mono"
-  }, simStats.switchWins.toLocaleString(), " \u099F\u09BF \u09AE\u09CD\u09AF\u09BE\u099A")), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between text-slate-200 font-bold"
-  }, /*#__PURE__*/React.createElement("span", null, "\u09A5\u09BE\u0995\u09B2\u09C7 \u099C\u09DF:"), /*#__PURE__*/React.createElement("span", {
-    className: "text-purple-400 font-mono"
-  }, simStats.stayWins.toLocaleString(), " \u099F\u09BF \u09AE\u09CD\u09AF\u09BE\u099A"))))), /*#__PURE__*/React.createElement(ExplainerDrawer, {
-    title: "\u09AE\u09A8\u09CD\u099F\u09BF \u09B9\u09B2 \u09AA\u09CD\u09B0\u09AC\u09B2\u09C7\u09AE (Monty Hall Problem)",
-    eli5: "\u0996\u09C7\u09B2\u09BE \u09B6\u09C1\u09B0\u09C1\u09A4\u09C7\u0987 \u0986\u09AA\u09A8\u09BF \u09E7\u099F\u09BF \u09A6\u09B0\u099C\u09BE \u09AC\u09C7\u099B\u09C7 \u09A8\u09BF\u09B2\u09C7 \u0997\u09BE\u09DC\u09BF\u099F\u09BF \u099C\u09C7\u09A4\u09BE\u09B0 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE \u099B\u09BF\u09B2 \u09E7/\u09E9 \u098F\u09AC\u0982 \u09AC\u09BE\u0995\u09BF \u09A6\u09C1\u099F\u09BF \u09A6\u09B0\u099C\u09BE\u09DF \u0997\u09BE\u09DC\u09BF \u09A5\u09BE\u0995\u09BE\u09B0 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE \u099B\u09BF\u09B2 \u09E8/\u09E9\u0964 \u09B9\u09CB\u09B8\u09CD\u099F \u09AE\u09A8\u09CD\u099F\u09BF \u09AF\u0996\u09A8 \u09A8\u09BF\u09B6\u09CD\u099A\u09BF\u09A4\u09AD\u09BE\u09AC\u09C7 \u09E7\u099F\u09BF \u099B\u09BE\u0997\u09B2 \u09A5\u09BE\u0995\u09BE \u09A6\u09B0\u099C\u09BE \u0996\u09C1\u09B2\u09C7 \u09A6\u09C7\u09A8, \u09A4\u09BF\u09A8\u09BF \u0986\u09AA\u09A8\u09BE\u09B0 \u0986\u0997\u09C7\u09B0 \u09E7/\u09E9 \u09AD\u09BE\u0997\u09CD\u09AF \u09AA\u09B0\u09BF\u09AC\u09B0\u09CD\u09A4\u09A8 \u0995\u09B0\u09C7\u09A8 \u09A8\u09BE\u2014\u09A4\u09BF\u09A8\u09BF \u09AC\u09BE\u0995\u09BF \u09E8/\u09E9 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE \u09AA\u09C1\u09B0\u09CB\u099F\u09BE\u0987 \u09A8\u09BE \u0996\u09CB\u09B2\u09BE \u0985\u09A8\u09CD\u09AF \u09A6\u09B0\u099C\u09BE\u099F\u09BF\u09A4\u09C7 \u09B6\u09BF\u09AB\u099F \u0995\u09B0\u09C7 \u09A6\u09C7\u09A8!",
-    intuitionTrap: "\u0986\u09AE\u09B0\u09BE \u09AD\u09BE\u09AC\u09BF: '\u098F\u0996\u09A8 \u09A4\u09CB \u09E8\u099F\u09BF \u09A6\u09B0\u099C\u09BE \u09AC\u09BE\u0995\u09BF \u09B0\u09DF\u09C7\u099B\u09C7, \u09A4\u09BE\u0987 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE \u09EB\u09E6/\u09EB\u09E6 \u09B9\u0993\u09DF\u09BE \u0989\u099A\u09BF\u09A4\u0964' \u0995\u09BF\u09A8\u09CD\u09A4\u09C1 \u09AE\u09A8\u09CD\u099F\u09BF \u09B0\u09CD\u09AF\u09BE\u09A8\u09CD\u09A1\u09AE\u09AD\u09BE\u09AC\u09C7 \u09A6\u09B0\u099C\u09BE \u0996\u09CB\u09B2\u09C7\u09A8\u09A8\u09BF! \u09AE\u09A8\u09CD\u099F\u09BF \u099C\u09BE\u09A8\u09C7\u09A8 \u0995\u09CB\u09A5\u09BE\u09DF \u0997\u09BE\u09DC\u09BF \u09B0\u09DF\u09C7\u099B\u09C7 \u098F\u09AC\u0982 \u09A4\u09BF\u09A8\u09BF \u099B\u09BE\u0997\u09B2 \u09A6\u09C7\u0996\u09BE\u09A4\u09C7 \u09AC\u09BE\u09A7\u09CD\u09AF\u0964 \u098F\u0987 \u09A8\u09A4\u09C1\u09A8 \u09A4\u09A5\u09CD\u09AF\u0987 \u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09A8\u09BE\u09B0 \u0985\u09A8\u09C1\u09AA\u09BE\u09A4 \u09AA\u09B0\u09BF\u09AC\u09B0\u09CD\u09A4\u09A8 \u0995\u09B0\u09C7 \u09A6\u09C7\u09DF\u0964",
-    mathProof: `P(দরজা ১-এ কার) = ১/৩
-P(দরজা ২ বা ৩-এ কার) = ২/৩
-
-আপনি দরজা ১ বেছে নিয়েছেন।
-হোস্ট দরজা ৩ খুলে একটি ছাগল দেখালেন।
-
-বেয়েসের থিওরেম (Bayes' Theorem) অনুযায়ী:
-P(দরজা ২-এ কার | হোস্ট দরজা ৩ খুললেন) = ২/৩ (৬৬.৭%)
-P(দরজা ১-এ কার | হোস্ট দরজা ৩ খুললেন) = ১/৩ (৩৩.৩%)`,
-    realWorld: "\u0997\u09C7\u09AE \u09A5\u09BF\u0993\u09B0\u09BF \u0993 \u09AB\u09BE\u0987\u09A8\u09CD\u09AF\u09BE\u09A8\u09CD\u09B8\u09BF\u09DF\u09BE\u09B2 \u0987\u09A8\u09AB\u09B0\u09AE\u09C7\u09B6\u09A8 \u09A1\u09BE\u0987\u09A8\u09BE\u09AE\u09BF\u0995\u09CD\u09B8! \u09B6\u09C7\u09DF\u09BE\u09B0 \u09AC\u09BE\u099C\u09BE\u09B0\u09C7 \u09AC\u09BE \u099A\u09BF\u0995\u09BF\u09CE\u09B8\u09BE\u09DF \u09AF\u0996\u09A8 \u098F\u0995\u099C\u09A8 \u0985\u09AD\u09BF\u099C\u09CD\u099E \u09A4\u09A5\u09CD\u09AF\u09A6\u09BE\u09A4\u09BE \u09A8\u09A4\u09C1\u09A8 \u0995\u09CB\u09A8\u09CB \u0985\u09AA\u09B6\u09A8 \u09AC\u09BE\u09A6 \u09A6\u09C7\u09A8, \u09A4\u0996\u09A8 \u0985\u09AA\u09B0\u09C0\u0995\u09CD\u09B7\u09BF\u09A4 \u0985\u09A8\u09CD\u09AF \u0985\u09AA\u09B6\u09A8\u0997\u09C1\u09B2\u09CB\u09B0 \u09AE\u09C2\u09B2\u09CD\u09AF \u09B8\u09CD\u09AC\u09DF\u0982\u0995\u09CD\u09B0\u09BF\u09DF\u09AD\u09BE\u09AC\u09C7 \u09AC\u09C3\u09A6\u09CD\u09A7\u09BF \u09AA\u09BE\u09DF\u0964"
+  })))), /*#__PURE__*/React.createElement(ExplainerDrawer, {
+    title: isBn ? "গেম শো ফাঁদ (The Game Show Trap)" : "The Game Show Trap",
+    eli5: isBn ? "খেলা শুরুতেই আপনি ১টি দরজা বেছে নিলে গাড়িটি জেতার সম্ভাবনা ছিল ১/৩ এবং বাকি দুটি দরজায় গাড়ি থাকার সম্ভাবনা ছিল ২/৩। হোস্ট মন্টি যখন নিশ্চিতভাবে ১টি ছাগল থাকা দরজা খুলে দেন, তিনি আপনার আগের ১/৩ ভাগ্য পরিবর্তন করেন না—তিনি বাকি ২/৩ সম্ভাবনা পুরোটাই না খোলা অন্য দরজাটিতে শিফট করে দেন!" : "When you pick a door at the start, you have a 1 in 3 chance of picking the car, and a 2 in 3 chance that the car is behind one of the OTHER two doors. When Monty opens a goat door, he doesn't change your initial 1/3 luck—he concentrates the entire remaining 2/3 probability into the unopened door!",
+    intuitionTrap: isBn ? "আমরা ভাবি: 'এখন তো ২টি দরজা বাকি রয়েছে, তাই সম্ভাবনা ৫০/৫০ হওয়া উচিত।' কিন্তু মন্টি র্যান্ডমভাবে দরজা খোলেননি! মন্টি জানেন কোথায় গাড়ি রয়েছে এবং তিনি ছাগল দেখাতে বাধ্য। এই নতুন তথ্যই সম্ভাবনার অনুপাত পরিবর্তন করে দেয়।" : "We think: 'There are 2 doors left, so it must be 50/50.' But Monty didn't open a random door! He KNOWS where the car is and is FORCED to reveal a goat. That key action transfers information to the unchosen door.",
+    mathProof: `P(Car in Door 1) = 1/3
+P(Car in Door 2 or 3) = 2/3
+P(Switch Win) = 2/3 (66.7%)
+P(Stay Win) = 1/3 (33.3%)`,
+    realWorld: isBn ? "গেম থিওরি ও ফাইন্যান্সিয়াল ইনফরমেশন ডাইনামিক্স! শেয়ার বাজারে বা চিকিৎসায় যখন একজন অভিজ্ঞ তথ্যদাতা নতুন কোনো অপশন বাদ দেন, তখন অপরীক্ষিত অন্য অপশনগুলোর মূল্য স্বয়ংক্রিয়ভাবে বৃদ্ধি পায়।" : "Game Theory and Information Economics! In financial markets, getting new information from an informed agent updates the value of unchosen options."
   })));
 }

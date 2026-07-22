@@ -24,27 +24,27 @@ export default function Header({
     icon: Sparkles
   }, {
     id: 'birthday',
-    label: isBn ? 'বার্থডে প্যারাডক্স' : 'Birthday Paradox',
+    label: isBn ? '🎉 জন্মদিনের মিল' : '🎉 The Party Coincidence',
     icon: Flame
   }, {
     id: 'monty',
-    label: isBn ? 'মন্টি হল' : 'Monty Hall',
+    label: isBn ? '🚗 গেম শো ফাঁদ' : '🚗 The Game Show Trap',
     icon: DoorClosed
   }, {
     id: 'simpsons',
-    label: isBn ? 'সিম্পসন' : 'Simpson',
+    label: isBn ? '📊 ডেটা টুইস্ট' : '📊 The Data Flip',
     icon: BarChart2
   }, {
     id: 'parrondo',
-    label: isBn ? 'পারন্ডো' : 'Parrondo',
+    label: isBn ? '🪙 জেতা-হারার ট্রিক' : '🪙 The Winning-Loss Trick',
     icon: Coins
   }, {
     id: 'stpetersburg',
-    label: isBn ? 'সেন্ট পিটার্সবার্গ' : 'St. Petersburg',
+    label: isBn ? '🎰 দ্বিগুণ পাত্র' : '🎰 The Doubling Pot',
     icon: DollarSign
   }, {
     id: 'newcombs',
-    label: isBn ? 'নিউকম্বস' : 'Newcomb',
+    label: isBn ? '🧠 এআই মাইন্ড রিডার' : '🧠 The AI Mind Reader',
     icon: Brain
   }];
   const handleNavClick = id => {
@@ -80,10 +80,12 @@ export default function Header({
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
   }, /*#__PURE__*/React.createElement("h1", {
-    className: "text-lg sm:text-2xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-300 to-amber-400"
-  }, isBn ? 'আহা! // প্যারাডক্স ভিজ্যুয়ালাইজার' : 'AHA! // MATH VISUALIZER')), /*#__PURE__*/React.createElement("p", {
-    className: "text-[11px] sm:text-xs text-slate-400 font-medium tracking-wide"
-  }, isBn ? 'মাইন্ড-বেন্ডিং লজিক এবং সম্ভাব্যতা, গল্প ও গাণিতিক রিয়েল-টাইম খেলায়!' : 'Mind-Bending Logic & Probability, Visualized in Interactive Games.'))), /*#__PURE__*/React.createElement("div", {
+    className: "text-lg sm:text-xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-300 to-amber-400"
+  }, "AHA! ", /*#__PURE__*/React.createElement("span", {
+    className: "text-slate-500 font-mono text-xs font-normal"
+  }, "//"), " PARADOX LAB")), /*#__PURE__*/React.createElement("p", {
+    className: "text-[11px] sm:text-xs text-blue-400/90 font-semibold tracking-wide"
+  }, isBn ? 'কঠিন লজিক এখন সহজ! আপনার স্বজ্ঞাত ধারণা পরীক্ষা করতে ট্যাপ করুন!' : 'Mind-Bending Logic Made Simple. Tap a Paradox to Test Your Intuition!'))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2 md:hidden"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: e => {

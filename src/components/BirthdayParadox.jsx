@@ -55,10 +55,10 @@ export default function BirthdayParadox({ lang = 'bn' }) {
 
     if (trialResult.matchingPairs.length === 0) return;
 
-    ctx.strokeStyle = '#3B82F6';
+    ctx.strokeStyle = '#ff7a00';
     ctx.lineWidth = 3;
-    ctx.shadowColor = '#3B82F6';
-    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#ff7a00';
+    ctx.shadowBlur = 12;
 
     trialResult.matchingPairs.forEach(([idxA, idxB]) => {
       const elA = container.querySelector(`[data-avatar-id="${idxA}"]`);
@@ -106,8 +106,8 @@ export default function BirthdayParadox({ lang = 'bn' }) {
         {
           label: isBn ? 'তাত্ত্বিক সম্ভাব্যতা (%)' : 'Theoretical Probability (%)',
           data,
-          borderColor: '#3B82F6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderColor: '#ff7a00',
+          backgroundColor: 'rgba(255, 122, 0, 0.1)',
           fill: true,
           tension: 0.4,
           pointRadius: 0
@@ -115,8 +115,8 @@ export default function BirthdayParadox({ lang = 'bn' }) {
         {
           label: isBn ? `বর্তমান অবস্থান (${numPeople} জন)` : `Current (${numPeople} people)`,
           data: labels.map(l => l === numPeople ? +probPercent : null),
-          borderColor: '#EC4899',
-          backgroundColor: '#EC4899',
+          borderColor: '#3b82f6',
+          backgroundColor: '#3b82f6',
           pointRadius: 6,
           pointHoverRadius: 8
         }
@@ -128,7 +128,7 @@ export default function BirthdayParadox({ lang = 'bn' }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
+      legend: { labels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11 } } },
       tooltip: {
         callbacks: {
           label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`
@@ -136,50 +136,50 @@ export default function BirthdayParadox({ lang = 'bn' }) {
       }
     },
     scales: {
-      x: { title: { display: true, text: isBn ? 'মানুষের সংখ্যা (n)' : 'People (n)', color: '#64748b' } },
-      y: { min: 0, max: 100, title: { display: true, text: '%', color: '#64748b' } }
+      x: { title: { display: true, text: isBn ? 'মানুষের সংখ্যা (n)' : 'People (n)', color: 'rgba(255, 255, 255, 0.4)' } },
+      y: { min: 0, max: 100, title: { display: true, text: '%', color: 'rgba(255, 255, 255, 0.4)' } }
     }
   };
 
   return (
     <section id="birthday" className="py-6 sm:py-8 scroll-mt-24">
-      <div className="glass-card rounded-3xl p-4 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden space-y-6">
+      <div className="liquid-glass-card rounded-3xl p-4 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden space-y-6">
         
-        {/* Glow Accent */}
-        <div className="absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        {/* Cosmic Orange Glow */}
+        <div className="absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-[#ff7a00]/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
-        {/* Section Header */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-2xl bg-blue-500/10 border border-blue-500/30 text-blue-400">
+              <div className="p-2.5 rounded-2xl bg-[#ff7a00]/15 border border-[#ff7a00]/40 text-[#ff7a00]">
                 <Flame className="w-6 h-6" />
               </div>
-              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
+              <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight">
                 {isBn ? '🎉 জন্মদিনের মিল (The Party Coincidence)' : '🎉 The Party Coincidence'}
               </h2>
             </div>
-            <p className="text-slate-400 text-xs sm:text-sm mt-1 font-medium">
+            <p className="text-white/60 text-xs sm:text-sm mt-1 font-medium">
               {isBn ? 'একটি পার্টিতে কতজন মানুষ থাকলে অন্তত দুজন মানুষের একই দিনে জন্মদিন হওয়ার সম্ভাবনা ৫০%?' : 'How many people do you need in a room for a 50% chance of a shared birthday?'}
             </p>
           </div>
         </div>
 
-        {/* Step 1: Hook - Interactive Intuition Guess First Slider */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-indigo-950/60 border border-blue-500/30 space-y-3">
+        {/* Step 1: Hook - Guess Slider */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#ff7a00]/15 via-white/[0.02] to-purple-600/15 border border-[#ff7a00]/30 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-extrabold text-blue-400 uppercase tracking-wider flex items-center space-x-2">
+            <span className="text-xs font-extrabold text-[#ff7a00] uppercase tracking-wider flex items-center space-x-2">
               <HelpCircle className="w-4 h-4" />
-              <span>{isBn ? 'ধাপ ১: প্রথমে আপনার আন্দাজ পরীক্ষা করুন!' : 'Step 1: Test Your Intuition First!'}</span>
+              <span>{isBn ? 'ধাপ ১: আপনার অনুমান পরীক্ষা করুন!' : 'Step 1: Test Your Intuition First!'}</span>
             </span>
-            <span className="text-sm font-mono font-black text-blue-300 bg-blue-500/10 px-3 py-1 rounded-xl border border-blue-500/30">
+            <span className="text-sm font-mono font-black text-[#ff7a00] bg-[#ff7a00]/15 px-3 py-1 rounded-xl border border-[#ff7a00]/40">
               {userGuess} {isBn ? 'জন মানুষ' : 'people'}
             </span>
           </div>
 
-          <p className="text-xs text-slate-300 font-semibold">
+          <p className="text-xs text-white/80 font-semibold">
             {isBn 
-              ? '৫০% সম্ভাবনার জন্য একটি ঘরে কতজন মানুষ প্রয়োজন বলে আপনার অনুমান?' 
+              ? '৫০% সম্ভাবনার জন্য একটি ঘরে কতজন মানুষ প্রয়োজন বলে আপনার ধারণা?' 
               : 'How many people do you THINK are needed for a 50% chance of a shared birthday?'}
           </p>
 
@@ -189,29 +189,29 @@ export default function BirthdayParadox({ lang = 'bn' }) {
             max="365"
             value={userGuess}
             onChange={(e) => { setUserGuess(parseInt(e.target.value)); setHasGuessed(true); }}
-            className="w-full h-3 bg-slate-800 rounded-lg cursor-pointer accent-blue-500 touch-none"
+            className="w-full h-3 bg-white/10 rounded-lg cursor-pointer accent-[#ff7a00] touch-none"
           />
 
           {hasGuessed && (
-            <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center space-x-3 text-xs text-slate-200">
+            <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center space-x-3 text-xs text-white">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
               <span>
                 {isBn ? (
-                  <>আপনার অনুমান <strong>{userGuess} জন</strong>! কিন্তু আসল গাণিতিক উত্তর হলো মাত্র <strong className="text-blue-400 font-extrabold text-sm">২৩ জন!</strong></>
+                  <>আপনার অনুমান <strong>{userGuess} জন</strong>! কিন্তু আসল গাণিতিক উত্তর হলো মাত্র <strong className="text-[#ff7a00] font-extrabold text-sm">২৩ জন!</strong></>
                 ) : (
-                  <>You guessed <strong>{userGuess} people</strong>! But the real mathematical answer is ONLY <strong className="text-blue-400 font-extrabold text-sm">23 people!</strong></>
+                  <>You guessed <strong>{userGuess} people</strong>! But the real mathematical answer is ONLY <strong className="text-[#ff7a00] font-extrabold text-sm">23 people!</strong></>
                 )}
               </span>
             </div>
           )}
         </div>
 
-        {/* Step 2: Interactive Micro-Game (The Party Room Avatar Grid) */}
-        <div className="glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-4">
+        {/* Step 2: Interactive Party Room */}
+        <div className="liquid-glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center space-x-3">
-              <Users className="w-5 h-5 text-cyan-400" />
-              <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider">
+              <Users className="w-5 h-5 text-[#ff7a00]" />
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider">
                 {isBn ? 'ধাপ ২: পার্টি রুম সিমুলেটর' : 'Step 2: Interactive Party Room'}
               </h3>
             </div>
@@ -219,7 +219,7 @@ export default function BirthdayParadox({ lang = 'bn' }) {
             <div className="flex items-center space-x-2.5 w-full sm:w-auto">
               <button
                 onClick={runSingleTrial}
-                className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-glow-blue transition-all touch-manipulation"
+                className="btn-cosmic flex-1 sm:flex-none flex items-center justify-center space-x-2 px-5 py-2.5 rounded-2xl text-xs touch-manipulation glossy-shine"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>{isBn ? 'নতুন পার্টি ট্রায়াল' : 'Run New Trial'}</span>
@@ -227,10 +227,9 @@ export default function BirthdayParadox({ lang = 'bn' }) {
             </div>
           </div>
 
-          {/* Controls Slider */}
-          <div className="flex items-center space-x-4 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-            <span className="text-xs font-bold text-slate-300 whitespace-nowrap">
-              {isBn ? 'ঘরে কতজন:' : 'People:'} <strong className="text-blue-400">{numPeople}</strong>
+          <div className="flex items-center space-x-4 bg-white/[0.03] p-3 rounded-2xl border border-white/10">
+            <span className="text-xs font-bold text-white/80 whitespace-nowrap">
+              {isBn ? 'ঘরে কতজন:' : 'People:'} <strong className="text-[#ff7a00]">{numPeople}</strong>
             </span>
             <input
               type="range"
@@ -238,12 +237,11 @@ export default function BirthdayParadox({ lang = 'bn' }) {
               max="100"
               value={numPeople}
               onChange={(e) => setNumPeople(parseInt(e.target.value))}
-              className="w-full h-2.5 bg-slate-800 rounded-lg cursor-pointer accent-blue-500"
+              className="w-full h-2.5 bg-white/10 rounded-lg cursor-pointer accent-[#ff7a00]"
             />
           </div>
 
-          {/* Avatar Room Canvas */}
-          <div ref={gridContainerRef} className="relative min-h-[220px] p-2 bg-slate-950/60 rounded-xl border border-slate-800/80">
+          <div ref={gridContainerRef} className="relative min-h-[220px] p-3 bg-[#030305]/70 rounded-2xl border border-white/10">
             <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-10" />
 
             <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-10 gap-2 relative z-0">
@@ -253,18 +251,18 @@ export default function BirthdayParadox({ lang = 'bn' }) {
                   <div
                     key={av.id}
                     data-avatar-id={av.id}
-                    className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 ${
+                    className={`flex flex-col items-center justify-center p-2 rounded-2xl transition-all duration-300 ${
                       isMatched
-                        ? 'bg-cyan-500/20 border-2 border-cyan-400 shadow-glow-cyan scale-105 z-20 animate-pulse-slow'
-                        : 'bg-slate-900/80 border border-slate-800 text-slate-400'
+                        ? 'bg-[#ff7a00]/20 border-2 border-[#ff7a00] shadow-glow-amber scale-105 z-20 animate-pulse-slow'
+                        : 'bg-white/[0.03] border border-white/10 text-white/60'
                     }`}
                   >
                     <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${
-                      isMatched ? 'bg-cyan-400 text-slate-950 font-black' : 'bg-slate-800 text-slate-300'
+                      isMatched ? 'bg-[#ff7a00] text-slate-950 font-black' : 'bg-white/10 text-white'
                     }`}>
                       #{av.id + 1}
                     </div>
-                    <span className="text-[10px] font-mono mt-1 font-semibold text-slate-300 text-center leading-tight">
+                    <span className="text-[10px] font-mono mt-1 font-semibold text-white/80 text-center leading-tight">
                       {formatDayOfYear(av.birthday, lang)}
                     </span>
                   </div>
@@ -274,51 +272,45 @@ export default function BirthdayParadox({ lang = 'bn' }) {
           </div>
         </div>
 
-        {/* Step 3: Big Readable "Aha!" Verdict Card */}
+        {/* Step 3: Aha! Verdict */}
         <StatCard
           label={isBn ? "গাণিতিক রায় (The Aha! Verdict)" : "The Aha! Verdict"}
           value={`${probPercent}% Match Chance`}
           subtext={isBn ? `২৩ জন মানুষ থাকলেই অন্তত ২টি একই জন্মদিনের মিল পাওয়ার সম্ভাবনা ৫০.৭%!` : `At 23 people, there is a 50.7% chance of a shared birthday!`}
           icon={Percent}
-          color="blue"
+          color="amber"
           highlight={true}
         />
 
-        {/* Step 4: Collapsible Deep Dive Math & Formula Drawer */}
-        <details className="group border border-slate-800/80 rounded-2xl bg-slate-900/60 overflow-hidden">
-          <summary className="px-5 py-4 flex items-center justify-between cursor-pointer font-bold text-sm text-slate-200 hover:bg-slate-800/60 transition-colors">
+        {/* Step 4: Behind the Math */}
+        <details className="group border border-white/10 rounded-2xl bg-white/[0.02] overflow-hidden">
+          <summary className="px-5 py-4 flex items-center justify-between cursor-pointer font-bold text-sm text-white hover:bg-white/5 transition-colors">
             <span className="flex items-center space-x-2">
               <span>📐</span>
-              <span>{isBn ? 'গাণিতিক সূত্র, গ্রাফ ও ১,০০০ সিমুলেশন প্রমাণ দেখুন (Deep Dive)' : 'View Mathematical Formula, Graph & 1,000-Sim Proof'}</span>
+              <span>{isBn ? '📐 সূত্রের পেছনে ও গ্রাফ দেখুন (Behind the Math)' : '📐 Behind the Math & Proof'}</span>
             </span>
-            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180 text-slate-400" />
+            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180 text-white/40" />
           </summary>
 
-          <div className="p-5 border-t border-slate-800 space-y-6">
+          <div className="p-5 border-t border-white/10 space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
-              {/* Math Formula Card */}
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider font-mono">
+              <div className="p-4 rounded-2xl bg-[#030305] border border-white/10 space-y-2">
+                <h4 className="text-xs font-bold text-[#ff7a00] uppercase tracking-wider font-mono">
                   {isBn ? 'সঠিক গাণিতিক সূত্র' : 'Exact Probability Formula'}
                 </h4>
-                <div className="p-3 bg-slate-900 rounded-lg text-blue-300 font-mono text-xs overflow-x-auto">
+                <div className="p-3 bg-white/5 rounded-xl text-[#ff7a00] font-mono text-xs overflow-x-auto border border-white/10">
                   P(match) = 1 - (365! / (365^n * (365-n)!))
                 </div>
-                <p className="text-xs text-slate-400">
-                  {isBn ? '২৩ জন মানুষের জন্য জোড়ার সংখ্যা = ২৩ × ২২ / ২ = ২৫৩ টি জোড়া!' : 'For 23 people, unique pairings = 23 * 22 / 2 = 253 unique pairs!'}
-                </p>
               </div>
 
-              {/* Monte Carlo Run */}
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 flex flex-col justify-between">
+              <div className="p-4 rounded-2xl bg-[#030305] border border-white/10 space-y-3 flex flex-col justify-between">
                 <div>
                   <h4 className="text-xs font-bold text-purple-400 uppercase tracking-wider font-mono">
-                    {isBn ? '১,০০০ ট্রায়াল সিমুলেশন টেস্ট' : '1,000 Trial Simulation Test'}
+                    {isBn ? '১,০০০ সিমুলেশন টেস্ট' : '1,000 Trial Simulation'}
                   </h4>
                   {empiricalRate !== null && (
                     <p className="text-sm font-bold text-emerald-400 mt-1">
-                      {isBn ? `সিমুলেটেড অমিল না হওয়ার হার: ${empiricalRate}%` : `Simulated Match Rate: ${empiricalRate}%`}
+                      {isBn ? `সিমুলেটেড মিলের হার: ${empiricalRate}%` : `Simulated Match Rate: ${empiricalRate}%`}
                     </p>
                   )}
                 </div>
@@ -326,20 +318,15 @@ export default function BirthdayParadox({ lang = 'bn' }) {
                 <button
                   onClick={handleRunMonteCarlo}
                   disabled={isSimulating}
-                  className="w-full flex items-center justify-center space-x-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700"
+                  className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/10"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${isSimulating ? 'animate-spin text-blue-400' : ''}`} />
-                  <span>{isSimulating ? `${monteCarloProgress}%` : (isBn ? '১,০০০ সিমুলেশন চালান' : 'Run 1,000 Sims')}</span>
+                  <RefreshCw className={`w-3.5 h-3.5 ${isSimulating ? 'animate-spin text-[#ff7a00]' : ''}`} />
+                  <span>{isSimulating ? `${monteCarloProgress}%` : (isBn ? '১,০০০ সিমুলেশন' : 'Run 1,000 Sims')}</span>
                 </button>
               </div>
-
             </div>
 
-            {/* Line Chart */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 min-h-[240px]">
-              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                {isBn ? 'তাত্ত্বিক সম্ভাব্যতা কার্ভ (Theoretical Probability Curve)' : 'Theoretical Probability Curve'}
-              </h4>
+            <div className="p-4 rounded-2xl bg-[#030305] border border-white/10 min-h-[240px]">
               <div className="h-[200px] relative">
                 <Line data={curveData} options={chartOptions} />
               </div>
@@ -347,22 +334,15 @@ export default function BirthdayParadox({ lang = 'bn' }) {
           </div>
         </details>
 
-        {/* Step 5: Explainer Drawer */}
+        {/* Step 5: Explainer */}
         <ExplainerDrawer
-          title={isBn ? "জন্মদিনের কাকতালীয় ঘটনা (The Party Coincidence)" : "The Party Coincidence"}
+          title={isBn ? "জন্মদিনের মিল (The Party Coincidence)" : "The Party Coincidence"}
           eli5={isBn 
-            ? "একটু ভেবে দেখুন: আপনি যদি ঘরে আসা যেকোনো ১ জনের জন্মদিনের সাথে আপনার জন্মদিন মেলাতে চান, তবে বছরের অর্ধেকের বেশি ১৮৩ জন মানুষের প্রয়োজন। কিন্তু আমরা যখন বলি 'যেকোনো ২ জন মানুষের জন্মদিন মিলবে কিনা'—তখন ঘরের সবাই সবার সাথে হ্যান্ডশেক করে! মাত্র ২৩ জন মানুষ থাকলে সেখানে ২৫৩ টি জোড়া তৈরি হয়, যা ৫০.৭% সম্ভাবনা তৈরি করে।"
-            : "Imagine inviting people to a party. You might think you need 183 people (half the year) for a 50% chance of a shared birthday. But you actually only need 23! Why? Because you are comparing EVERY person to EVERY other person in the room—which creates 253 pairs of people shaking hands!"}
-          intuitionTrap={isBn 
-            ? "আমাদের মস্তিষ্ক সবসময় স্বজ্ঞাতভাবে চিন্তা করে: 'অন্য কারোর জন্মদিন কি আমার জন্মদিনের সাথে মিলবে?' (যাতে ১৮৩ জন লাগে)। কিন্তু প্যারাডক্সটি হলো: 'যে কোনো ২ জন মানুষের মধ্যে কি মিল রয়েছে?' জোড়ার সংখ্যা মানুষের সংখ্যার সাথে সাথে বহুগুণে বাড়তে থাকে।"
-            : "Our human brain naturally thinks: 'What are the chances someone else has MY birthday?' That requires 183 people. But the paradox asks: 'Do ANY TWO people share a birthday?' We forget how fast pairs multiply!"}
-          mathProof={`P(match) = 1 - P(no match)
-For n = 23: Pairs = 23 * 22 / 2 = 253
-P(no match) = 0.4927
-P(match) = 1 - 0.4927 = 0.5073 (50.7%)`}
-          realWorld={isBn 
-            ? "সাইবার সিকিউরিটিতে পাসওয়ার্ড হ্যাশিং (Birthday Attack)! হ্যাকাররা এই প্যারাডক্স ব্যবহার করে ভিন্ন দুটি পাসওয়ার্ডের জন্য হুবহু একই ডিজিটাল সিগনেচার হ্যাশ তৈরি করে সিস্টেম ক্র্যাক করে।"
-            : "Cryptographic Hash Collisions (The Birthday Attack)! Cybersecurity hackers use this to find two different password files that produce the exact same digital hash."}
+            ? "একটি ঘরে মাত্র ২৩ জন মানুষ থাকলে ২৫৩ টি জোড়া তৈরি হয়! সবাই সবার সাথে তুলনা করায় ৫০.৭% সম্ভাবনা তৈরি হয়।"
+            : "In a room of 23 people, there are 253 unique pairs comparing birthdays, creating a 50.7% chance of a match!"}
+          intuitionTrap="We naturally think about people sharing MY birthday (requires 183 people), not ANY TWO people sharing a birthday!"
+          mathProof="P(match) = 1 - (365! / (365^n * (365-n)!))"
+          realWorld="Cryptographic Hash Collisions (Birthday Attack)!"
         />
 
       </div>

@@ -4,56 +4,23 @@ export default function StatCard({
   value,
   subtext,
   icon: Icon,
-  color = 'blue',
+  color = 'amber',
   highlight = false
 }) {
-  const colorMap = {
-    blue: {
-      border: 'border-blue-500/30',
-      bg: 'bg-blue-500/10',
-      text: 'text-blue-400',
-      glow: 'shadow-glow-blue'
-    },
-    purple: {
-      border: 'border-purple-500/30',
-      bg: 'bg-purple-500/10',
-      text: 'text-purple-400',
-      glow: 'shadow-glow-purple'
-    },
-    cyan: {
-      border: 'border-cyan-500/30',
-      bg: 'bg-cyan-500/10',
-      text: 'text-cyan-400',
-      glow: 'shadow-glow-cyan'
-    },
-    emerald: {
-      border: 'border-emerald-500/30',
-      bg: 'bg-emerald-500/10',
-      text: 'text-emerald-400',
-      glow: 'shadow-glow-emerald'
-    },
-    amber: {
-      border: 'border-amber-500/30',
-      bg: 'bg-amber-500/10',
-      text: 'text-amber-400',
-      glow: 'shadow-glow-amber'
-    }
-  };
-  const theme = colorMap[color] || colorMap.blue;
   return /*#__PURE__*/React.createElement("div", {
-    className: `glass-card rounded-2xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300 ${highlight ? `${theme.border} ${theme.glow}` : 'border-slate-800'}`
+    className: `liquid-glass-card glossy-shine rounded-3xl p-4 sm:p-5 relative overflow-hidden transition-all duration-300 ${highlight ? 'border-[#ff7a00]/40 bg-[#ff7a00]/10 shadow-glow-amber' : 'border-white/10'}`
   }, highlight && /*#__PURE__*/React.createElement("div", {
-    className: `absolute top-0 right-0 w-24 h-24 ${theme.bg} rounded-full blur-2xl -mr-8 -mt-8 pointer-events-none`
+    className: "absolute top-0 right-0 w-28 h-28 bg-[#ff7a00]/15 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"
   }), /*#__PURE__*/React.createElement("div", {
     className: "flex items-start justify-between"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    className: "text-xs font-semibold text-slate-400 uppercase tracking-wider"
+    className: "text-[11px] font-extrabold text-white/50 uppercase tracking-wider"
   }, label), /*#__PURE__*/React.createElement("h3", {
-    className: `text-2xl sm:text-3xl font-extrabold mt-1 tracking-tight ${theme.text}`
+    className: `text-2xl sm:text-3xl font-black mt-1 tracking-tight ${highlight ? 'text-[#ff7a00]' : 'text-white'}`
   }, value), subtext && /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-400 mt-1 font-medium"
+    className: "text-xs text-white/60 mt-1 font-medium"
   }, subtext)), Icon && /*#__PURE__*/React.createElement("div", {
-    className: `p-2.5 rounded-xl ${theme.bg} ${theme.text} border ${theme.border}`
+    className: "p-3 rounded-2xl bg-white/5 border border-white/10 text-[#ff7a00]"
   }, /*#__PURE__*/React.createElement(Icon, {
     className: "w-5 h-5"
   }))));

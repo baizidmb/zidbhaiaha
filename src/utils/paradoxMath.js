@@ -1,11 +1,10 @@
 /**
- * Mathematical Utilities & Numerical Safety for Aha! Paradox Visualizer
+ * Mathematical Utilities & Numerical Safety for Aha! Paradox Visualizer (Bangla Enabled)
  */
 
 /**
  * Calculates Birthday Paradox probability safely without factorials.
  * P(match) = 1 - P(no match)
- * P(no match) = (365/365) * (364/365) * (363/365) * ... * ((365 - n + 1)/365)
  * @param {number} n - Number of people in room
  * @returns {number} Probability between 0 and 1
  */
@@ -35,11 +34,10 @@ export function getBirthdayCurveData() {
 
 /**
  * Generates random birthdays (1 to 365) for n avatars and finds all matching pairs.
- * @param {number} n
  */
 export function generateBirthdayTrial(n) {
   const avatars = [];
-  const birthdayMap = new Map(); // birthday -> array of avatar indices
+  const birthdayMap = new Map();
   const matchingPairs = [];
   const matchedAvatarSet = new Set();
 
@@ -53,7 +51,6 @@ export function generateBirthdayTrial(n) {
     birthdayMap.get(bday).push(i);
   }
 
-  // Identify matching pairs
   birthdayMap.forEach((indices, bday) => {
     if (indices.length > 1) {
       for (let i = 0; i < indices.length; i++) {
@@ -75,14 +72,14 @@ export function generateBirthdayTrial(n) {
 }
 
 /**
- * Month & Day formatter for birthday number (1-365)
+ * Bangla Month & Day Formatter
  */
 export function formatDayOfYear(dayNum) {
   const months = [
-    { name: 'Jan', days: 31 }, { name: 'Feb', days: 28 }, { name: 'Mar', days: 31 },
-    { name: 'Apr', days: 30 }, { name: 'May', days: 31 }, { name: 'Jun', days: 30 },
-    { name: 'Jul', days: 31 }, { name: 'Aug', days: 31 }, { name: 'Sep', days: 30 },
-    { name: 'Oct', days: 31 }, { name: 'Nov', days: 30 }, { name: 'Dec', days: 31 }
+    { name: 'জানুয়ারি', days: 31 }, { name: 'ফেব্রুয়ারি', days: 28 }, { name: 'মার্চ', days: 31 },
+    { name: 'এপ্রিল', days: 30 }, { name: 'মে', days: 31 }, { name: 'জুন', days: 30 },
+    { name: 'জুলাই', days: 31 }, { name: 'আগস্ট', days: 31 }, { name: 'সেপ্টেম্বর', days: 30 },
+    { name: 'অক্টোবর', days: 31 }, { name: 'নভেম্বর', days: 30 }, { name: 'ডিসেম্বর', days: 31 }
   ];
   
   let day = dayNum;
@@ -92,15 +89,11 @@ export function formatDayOfYear(dayNum) {
     }
     day -= m.days;
   }
-  return `Dec 31`;
+  return `ডিসেম্বর ৩১`;
 }
 
 /**
  * Parrondo's Paradox Step Calculations
- * Game A: P(win) = 0.49 - e (losing biased coin, e = 0.005 => P(win)=0.485)
- * Game B: Capital dependent:
- *   If Capital % 3 === 0: P(win) = 0.09 - e (0.085)
- *   If Capital % 3 !== 0: P(win) = 0.74 - e (0.735)
  */
 export function stepParrondoGameA(capital, epsilon = 0.005) {
   const pWin = 0.49 - epsilon;
@@ -117,16 +110,15 @@ export function stepParrondoGameB(capital, epsilon = 0.005) {
 
 /**
  * Classic Simpson's Paradox Dataset
- * Medical Treatment Success Rates (Kidney Stones Study - Charig et al.)
  */
 export const DEFAULT_SIMPSONS_DATA = {
   treatmentA: {
-    name: "Treatment A (Invasive Surgery)",
+    name: "চিকিৎসা A (সার্জারি)",
     smallStones: { success: 81, total: 87 },   // 93.1%
     largeStones: { success: 192, total: 263 }  // 73.0%
   },
   treatmentB: {
-    name: "Treatment B (Open Ultrasound)",
+    name: "চিকিৎসা B (আল্ট্রাসাউন্ড)",
     smallStones: { success: 234, total: 270 },  // 86.7%
     largeStones: { success: 55, total: 80 }     // 68.8%
   }

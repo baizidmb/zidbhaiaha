@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DoorClosed, Award, RotateCcw, Play, BarChart, Sparkles, Check, X } from 'lucide-react';
+import { DoorClosed, RotateCcw, Play, BarChart, Sparkles, Check, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import StatCard from './StatCard.jsx';
 import ExplainerDrawer from './ExplainerDrawer.jsx';
@@ -8,8 +8,6 @@ import { playClickSound, playDoorOpenSound, playWinFanfare } from '../utils/soun
 import { Bar } from 'react-chartjs-2';
 
 export default function MontyHall() {
-  // Interactive Game State
-  // gameState: 'pick' | 'revealed' | 'finished'
   const [gameState, setGameState] = useState('pick');
   const [carDoor, setCarDoor] = useState(0);
   const [userPick, setUserPick] = useState(null);
@@ -17,7 +15,6 @@ export default function MontyHall() {
   const [finalChoice, setFinalChoice] = useState(null);
   const [isWin, setIsWin] = useState(false);
 
-  // Auto-simulation State
   const [isSimulating, setIsSimulating] = useState(false);
   const [simProgress, setSimProgress] = useState(0);
   const [simStats, setSimStats] = useState({
@@ -28,7 +25,6 @@ export default function MontyHall() {
     totalTrials: 10000
   });
 
-  // Start / Reset interactive game
   useEffect(() => {
     resetGame();
   }, []);
@@ -43,31 +39,26 @@ export default function MontyHall() {
     setGameState('pick');
   };
 
-  // Step 1: User picks door
   const handleDoorPick = (doorIdx) => {
     if (gameState !== 'pick') return;
     playClickSound();
     setUserPick(doorIdx);
 
-    // Host reveals a goat door that is neither user pick nor car door
     const availableGoatDoors = [0, 1, 2].filter(
       (d) => d !== doorIdx && d !== carDoor
     );
-    // Pick one random goat door to reveal
     const hostChoice = availableGoatDoors[Math.floor(Math.random() * availableGoatDoors.length)];
     setHostRevealedDoor(hostChoice);
     setGameState('revealed');
     playDoorOpenSound();
   };
 
-  // Step 2: User decides to Switch or Stay
   const handleFinalDecision = (shouldSwitch) => {
     if (gameState !== 'revealed') return;
     playClickSound();
 
     let choice = userPick;
     if (shouldSwitch) {
-      // Find remaining unchosen unopened door
       choice = [0, 1, 2].find((d) => d !== userPick && d !== hostRevealedDoor);
     }
     setFinalChoice(choice);
@@ -88,7 +79,6 @@ export default function MontyHall() {
     }
   };
 
-  // Run 10,000 Auto-Simulations (Async Batching)
   const handleRun10kSims = () => {
     playClickSound();
     setIsSimulating(true);
@@ -107,12 +97,11 @@ export default function MontyHall() {
     );
   };
 
-  // Chart setup
   const chartData = {
-    labels: ['Switch Strategy', 'Stay Strategy'],
+    labels: ['সুইচ করার কৌশল', 'একই দরজায় থাকার কৌশল'],
     datasets: [
       {
-        label: 'Win Rate (%)',
+        label: 'জেতার হার (%)',
         data: [simStats.switchWinRate, simStats.stayWinRate],
         backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(139, 92, 246, 0.7)'],
         borderColor: ['#3B82F6', '#8B5CF6'],
@@ -129,7 +118,7 @@ export default function MontyHall() {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (ctx) => `Win Rate: ${ctx.parsed.y}%`
+          label: (ctx) => `জেতার হার: ${ctx.parsed.y}%`
         }
       }
     },
@@ -139,102 +128,102 @@ export default function MontyHall() {
   };
 
   return (
-    <section id="monty" className="py-8 scroll-mt-24">
-      <div className="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+    <section id="monty" className="py-6 sm:py-8 scroll-mt-24">
+      <div className="glass-card rounded-3xl p-4 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
         
         {/* Glow Accent */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+        <div className="absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
 
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400">
-                <DoorClosed className="w-6 h-6" />
+              <div className="p-2 sm:p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400">
+                <DoorClosed className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-                The Monty Hall Problem
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
+                মন্টি হল প্রবলেম (Monty Hall Problem)
               </h2>
             </div>
-            <p className="text-slate-400 text-sm mt-1.5 font-medium">
-              Always switch doors! Switching doubles your chance of winning from <span className="text-purple-400 font-bold">1/3 (33.3%)</span> to <span className="text-blue-400 font-bold">2/3 (66.7%)</span>.
+            <p className="text-slate-400 text-xs sm:text-sm mt-1.5 font-medium">
+              সর্বদা সুযোগ দেওয়া হলে দরজা পরিবর্তন করুন! সুইচ করলে জেতার সম্ভাবনা <span className="text-purple-400 font-bold">১/৩ (৩৩.৩%)</span> থেকে দ্বিগুণ বেড়ে <span className="text-blue-400 font-bold">২/৩ (৬৬.৭%)</span> হয়।
             </p>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5 sm:space-x-3 w-full sm:w-auto">
             <button
               onClick={resetGame}
-              className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm border border-slate-700 transition-all duration-200"
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition-all duration-200 touch-manipulation"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Reset Doors</span>
+              <span>পুনরায় শুরু</span>
             </button>
 
             <button
               onClick={handleRun10kSims}
               disabled={isSimulating}
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-sm shadow-glow-purple transition-all duration-200 disabled:opacity-50"
+              className="flex-1 sm:flex-none flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-glow-purple transition-all duration-200 disabled:opacity-50 touch-manipulation"
             >
               <Play className={`w-4 h-4 fill-current ${isSimulating ? 'animate-spin' : ''}`} />
-              <span>{isSimulating ? `${simProgress}% Simulating` : 'Run 10,000 Auto-Simulations'}</span>
+              <span>{isSimulating ? `${simProgress}%` : '১০,০০০ সিমুলেশন'}</span>
             </button>
           </div>
         </div>
 
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
           
-          {/* Left: Interactive 3-Door Stage (7 Cols) */}
-          <div className="lg:col-span-7 glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          {/* Left: Interactive 3-Door Stage */}
+          <div className="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between">
             
             {/* Game Stage Prompt Banner */}
-            <div className="mb-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
+            <div className="mb-4 sm:mb-6 p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-center">
               {gameState === 'pick' && (
-                <p className="text-sm sm:text-base font-bold text-blue-400 flex items-center justify-center space-x-2">
-                  <Sparkles className="w-5 h-5" />
-                  <span>Step 1: Click any door to pick your prize door!</span>
+                <p className="text-xs sm:text-base font-bold text-blue-400 flex items-center justify-center space-x-2">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span>ধাপ ১: যেকোনো ১টি দরজায় ক্লিক করে আপনার পছন্দের দরজা বেছে নিন!</span>
                 </p>
               )}
               {gameState === 'revealed' && (
-                <div className="space-y-3">
-                  <p className="text-sm font-bold text-amber-400">
-                    🐐 Host revealed a GOAT behind Door #{hostRevealedDoor + 1}!
+                <div className="space-y-2.5 sm:space-y-3">
+                  <p className="text-xs sm:text-sm font-bold text-amber-400">
+                    🐐 হোস্ট দরজা #{hostRevealedDoor + 1} খুলে একটি ছাগল দেখিয়েছেন! আপনি কি দরজা সুইচ করবেন?
                   </p>
-                  <div className="flex items-center justify-center space-x-3">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
                     <button
                       onClick={() => handleFinalDecision(true)}
-                      className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-sm shadow-glow-blue transition-all transform hover:scale-105"
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm shadow-glow-blue transition-all touch-manipulation"
                     >
-                      SWITCH DOOR! (Recommended)
+                      দরজা সুইচ করুন! (প্রস্তাবিত - ৬৬.৭%)
                     </button>
                     <button
                       onClick={() => handleFinalDecision(false)}
-                      className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm border border-slate-700"
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs sm:text-sm border border-slate-700 touch-manipulation"
                     >
-                      STAY WITH DOOR #{userPick + 1}
+                      প্রথম পছন্দতেই থাকুন (৩৩.৩%)
                     </button>
                   </div>
                 </div>
               )}
               {gameState === 'finished' && (
-                <div className="flex items-center justify-center space-x-3">
-                  <span className={`text-base font-black px-4 py-1.5 rounded-xl ${
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+                  <span className={`text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-xl ${
                     isWin ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-red-500/20 text-red-300 border border-red-500/40'
                   }`}>
-                    {isWin ? '🎉 CONGRATULATIONS! YOU WON THE SPORTS CAR 🚗!' : '🐐 BAD LUCK! YOU GOT A GOAT!'}
+                    {isWin ? '🎉 অভিনন্দন! আপনি নতুন স্পোর্টস কার 🚗 জিতেছেন!' : '🐐 দুর্ভাগ্য! আপনি ছাগল পেয়েছেন!'}
                   </span>
                   <button
                     onClick={resetGame}
                     className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs"
                   >
-                    Play Again
+                    আবার খেলুন
                   </button>
                 </div>
               )}
             </div>
 
             {/* 3 Animated Door Cards */}
-            <div className="grid grid-cols-3 gap-4 sm:gap-6 my-4">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-6 my-2 sm:my-4">
               {[0, 1, 2].map((doorIdx) => {
                 const isUserInitialPick = userPick === doorIdx;
                 const isHostRevealed = hostRevealedDoor === doorIdx;
@@ -243,20 +232,20 @@ export default function MontyHall() {
 
                 let doorContent = null;
                 if (gameState === 'revealed' && isHostRevealed) {
-                  doorContent = { icon: '🐐', label: 'GOAT', bg: 'bg-amber-950/60 border-amber-600/40' };
+                  doorContent = { icon: '🐐', label: 'ছাগল', bg: 'bg-amber-950/60 border-amber-600/40' };
                 } else if (gameState === 'finished') {
                   doorContent = isCar
-                    ? { icon: '🚗', label: 'SPORTS CAR!', bg: 'bg-emerald-950/80 border-emerald-500 shadow-glow-emerald' }
-                    : { icon: '🐐', label: 'GOAT', bg: 'bg-slate-900 border-slate-800 opacity-60' };
+                    ? { icon: '🚗', label: 'নতুন কার!', bg: 'bg-emerald-950/80 border-emerald-500 shadow-glow-emerald' }
+                    : { icon: '🐐', label: 'ছাগল', bg: 'bg-slate-900 border-slate-800 opacity-60' };
                 }
 
                 return (
                   <div
                     key={doorIdx}
                     onClick={() => handleDoorPick(doorIdx)}
-                    className={`relative rounded-2xl p-4 sm:p-6 border-2 transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[220px] select-none ${
+                    className={`relative rounded-xl sm:rounded-2xl p-2.5 sm:p-6 border-2 transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[170px] sm:min-h-[220px] select-none touch-manipulation ${
                       gameState === 'pick'
-                        ? 'bg-slate-900/90 border-slate-700 hover:border-blue-500 hover:shadow-glow-blue transform hover:-translate-y-1'
+                        ? 'bg-slate-900/90 border-slate-700 hover:border-blue-500 hover:shadow-glow-blue'
                         : isUserInitialPick && gameState === 'revealed'
                         ? 'bg-blue-950/60 border-blue-500 shadow-glow-blue'
                         : doorContent
@@ -266,25 +255,25 @@ export default function MontyHall() {
                   >
                     {/* Badge */}
                     <div className="flex items-center justify-between w-full">
-                      <span className="font-mono text-xs font-bold text-slate-400">DOOR #{doorIdx + 1}</span>
+                      <span className="font-mono text-[10px] sm:text-xs font-bold text-slate-400">দরজা #{doorIdx + 1}</span>
                       {isUserInitialPick && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40">
-                          Initial Pick
+                        <span className="text-[8px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40">
+                          পছন্দ
                         </span>
                       )}
                     </div>
 
                     {/* Door Icon / Prize Reveal */}
-                    <div className="my-6 text-center">
+                    <div className="my-2 sm:my-6 text-center">
                       {doorContent ? (
-                        <div className="space-y-2 animate-bounce">
-                          <span className="text-5xl">{doorContent.icon}</span>
-                          <p className="text-xs font-black text-slate-200 tracking-wider">{doorContent.label}</p>
+                        <div className="space-y-1 sm:space-y-2 animate-bounce">
+                          <span className="text-3xl sm:text-5xl">{doorContent.icon}</span>
+                          <p className="text-[10px] sm:text-xs font-black text-slate-200 tracking-wider">{doorContent.label}</p>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center space-y-2">
-                          <DoorClosed className="w-16 h-16 text-slate-500 group-hover:text-blue-400 transition-colors" />
-                          <span className="text-xs text-slate-400 font-medium">Click to choose</span>
+                        <div className="flex flex-col items-center space-y-1 sm:space-y-2">
+                          <DoorClosed className="w-10 h-10 sm:w-16 sm:h-16 text-slate-500" />
+                          <span className="text-[10px] sm:text-xs text-slate-400 font-medium">ক্লিক করুন</span>
                         </div>
                       )}
                     </div>
@@ -292,8 +281,8 @@ export default function MontyHall() {
                     {/* Status Tag */}
                     <div className="w-full text-center">
                       {isFinalChosen && gameState === 'finished' && (
-                        <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${isWin ? 'bg-emerald-500 text-slate-950' : 'bg-red-500 text-white'}`}>
-                          {isWin ? 'WINNER!' : 'GOT GOAT'}
+                        <span className={`text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:py-1 rounded-lg ${isWin ? 'bg-emerald-500 text-slate-950' : 'bg-red-500 text-white'}`}>
+                          {isWin ? 'বিজয়ী!' : 'ছাগল'}
                         </span>
                       )}
                     </div>
@@ -304,19 +293,19 @@ export default function MontyHall() {
             </div>
 
             {/* Strategy Comparison Stat Cards */}
-            <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4">
               <StatCard
-                label="Switch Strategy Win Rate"
+                label="সুইচ করলে জেতার হার"
                 value={`${simStats.switchWinRate}%`}
-                subtext="~66.7% Theoretical Win Chance"
+                subtext="~৬৬.৭% গাণিতিক নিশ্চয়তা"
                 icon={Check}
                 color="blue"
                 highlight={true}
               />
               <StatCard
-                label="Stay Strategy Win Rate"
+                label="একই দরজায় থাকলে হার"
                 value={`${simStats.stayWinRate}%`}
-                subtext="~33.3% Theoretical Win Chance"
+                subtext="~৩৩.৩% গাণিতিক জেতার সুযোগ"
                 icon={X}
                 color="purple"
               />
@@ -324,24 +313,23 @@ export default function MontyHall() {
 
           </div>
 
-          {/* Right: Live 10,000 Auto-Simulation Chart (5 Cols) */}
-          <div className="lg:col-span-5 glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          {/* Right: Live 10,000 Auto-Simulation Chart */}
+          <div className="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-2">
+                <h3 className="text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-2">
                   <BarChart className="w-4 h-4 text-purple-400" />
-                  <span>10,000 Trial Simulation Engine</span>
+                  <span>১০,০০০ ট্রায়াল অটো-সিমুলেশন</span>
                 </h3>
-                <span className="text-xs font-mono font-bold text-slate-400 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
-                  {simStats.totalTrials.toLocaleString()} Trials
+                <span className="text-[10px] sm:text-xs font-mono font-bold text-slate-400 bg-slate-900 px-2 py-1 rounded-lg border border-slate-800">
+                  ১০,০০০ সিমুলেশন
                 </span>
               </div>
 
-              {/* Progress Bar during simulation */}
               {isSimulating && (
                 <div className="mb-4">
                   <div className="flex justify-between text-xs text-slate-400 font-mono mb-1">
-                    <span>Simulating trial loop...</span>
+                    <span>সিমুলেশন চলছে...</span>
                     <span>{simProgress}%</span>
                   </div>
                   <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -353,20 +341,19 @@ export default function MontyHall() {
                 </div>
               )}
 
-              {/* Chart */}
-              <div className="min-h-[260px] relative my-4">
+              <div className="min-h-[200px] sm:min-h-[260px] relative my-2">
                 <Bar data={chartData} options={chartOptions} />
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-400 space-y-1.5 font-medium">
+            <div className="p-3 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-400 space-y-1.5 font-medium mt-2">
               <div className="flex justify-between text-slate-200 font-bold">
-                <span>Switch Wins:</span>
-                <span className="text-blue-400 font-mono">{simStats.switchWins.toLocaleString()} / {simStats.totalTrials.toLocaleString()}</span>
+                <span>সুইচ করে জয়:</span>
+                <span className="text-blue-400 font-mono">{simStats.switchWins.toLocaleString()} টি ম্যাচ</span>
               </div>
               <div className="flex justify-between text-slate-200 font-bold">
-                <span>Stay Wins:</span>
-                <span className="text-purple-400 font-mono">{simStats.stayWins.toLocaleString()} / {simStats.totalTrials.toLocaleString()}</span>
+                <span>থাকলে জয়:</span>
+                <span className="text-purple-400 font-mono">{simStats.stayWins.toLocaleString()} টি ম্যাচ</span>
               </div>
             </div>
 
@@ -374,21 +361,21 @@ export default function MontyHall() {
 
         </div>
 
-        {/* Explainer Drawer */}
+        {/* Explainer Drawer in Bangla */}
         <ExplainerDrawer
-          title="The Monty Hall Problem"
-          eli5="When you pick a door at the start, you have a 1 in 3 chance of picking the car, and a 2 in 3 chance that the car is behind one of the OTHER two doors. When Monty opens a goat door, he doesn't change your initial 1/3 luck—he concentrates the entire remaining 2/3 probability into the unopened door!"
-          intuitionTrap="We think: 'There are 2 doors left, so it must be 50/50.' But Monty's choice wasn't random! He KNOWS where the car is and is FORCED to reveal a goat. That key action transfers information to the unchosen door."
-          mathProof={`P(Car behind Door 1) = 1/3
-P(Car behind Door 2 or Door 3) = 2/3
+          title="মন্টি হল প্রবলেম (Monty Hall Problem)"
+          eli5="খেলা শুরুতেই আপনি ১টি দরজা বেছে নিলে গাড়িটি জেতার সম্ভাবনা ছিল ১/৩ এবং বাকি দুটি দরজায় গাড়ি থাকার সম্ভাবনা ছিল ২/৩। হোস্ট মন্টি যখন নিশ্চিতভাবে ১টি ছাগল থাকা দরজা খুলে দেন, তিনি আপনার আগের ১/৩ ভাগ্য পরিবর্তন করেন না—তিনি বাকি ২/৩ সম্ভাবনা পুরোটাই না খোলা অন্য দরজাটিতে শিফট করে দেন!"
+          intuitionTrap="আমরা ভাবি: 'এখন তো ২টি দরজা বাকি রয়েছে, তাই সম্ভাবনা ৫০/৫০ হওয়া উচিত।' কিন্তু মন্টি র্যান্ডমভাবে দরজা খোলেননি! মন্টি জানেন কোথায় গাড়ি রয়েছে এবং তিনি ছাগল দেখাতে বাধ্য। এই নতুন তথ্যই সম্ভাবনার অনুপাত পরিবর্তন করে দেয়।"
+          mathProof={`P(দরজা ১-এ কার) = ১/৩
+P(দরজা ২ বা ৩-এ কার) = ২/৩
 
-Suppose you pick Door 1.
-Host opens Door 3 revealing a Goat (since P(Host reveals Goat | Car in Door 1) = 1/2, P(Host reveals Door 3 | Car in Door 2) = 1).
+আপনি দরজা ১ বেছে নিয়েছেন।
+হোস্ট দরজা ৩ খুলে একটি ছাগল দেখালেন।
 
-By Bayes' Theorem:
-P(Car in Door 2 | Host opens Door 3) = (1 * 1/3) / (1/2) = 2/3 (66.7%)
-P(Car in Door 1 | Host opens Door 3) = 1/3 (33.3%)`}
-          realWorld="Game Theory and Information Economics! In financial markets and decision making, getting new information from an informed agent (like Monty) updates the value of unchosen assets."
+বেয়েসের থিওরেম (Bayes' Theorem) অনুযায়ী:
+P(দরজা ২-এ কার | হোস্ট দরজা ৩ খুললেন) = ২/৩ (৬৬.৭%)
+P(দরজা ১-এ কার | হোস্ট দরজা ৩ খুললেন) = ১/৩ (৩৩.৩%)`}
+          realWorld="গেম থিওরি ও ফাইন্যান্সিয়াল ইনফরমেশন ডাইনামিক্স! শেয়ার বাজারে বা চিকিৎসায় যখন একজন অভিজ্ঞ তথ্যদাতা নতুন কোনো অপশন বাদ দেন, তখন অপরীক্ষিত অন্য অপশনগুলোর মূল্য স্বয়ংক্রিয়ভাবে বৃদ্ধি পায়।"
         />
 
       </div>

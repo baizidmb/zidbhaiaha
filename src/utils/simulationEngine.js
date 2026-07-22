@@ -1,37 +1,21 @@
-/**
- * Asynchronous Non-Blocking Simulation Engine for Aha! Paradox Visualizer
- * Uses requestAnimationFrame batch chunking to keep UI silky smooth during 10,000+ trial loops.
- */
+import { stepParrondoGameA, stepParrondoGameB, generateBirthdayTrial, playStPetersburgGame, playNewcombsGame } from './paradoxMath.js';
 
-import { stepParrondoGameA, stepParrondoGameB, generateBirthdayTrial } from './paradoxMath.js';
-
-/**
- * Runs Monty Hall Auto-Simulations (Switch vs Stay) over N total trials.
- * @param {number} totalTrials Default 10,000
- * @param {function} onProgress Callback(progressPercent, currentResults)
- * @param {function} onComplete Callback(finalResults)
- */
 export function runMontyHallSimulationAsync(totalTrials = 10000, onProgress, onComplete) {
   let trialsCompleted = 0;
   let switchWins = 0;
   let stayWins = 0;
-  const chunkSize = 400; // Batch per frame
+  const chunkSize = 400;
 
   function processChunk() {
     const end = Math.min(trialsCompleted + chunkSize, totalTrials);
 
     for (let i = trialsCompleted; i < end; i++) {
-      // Setup prize behind random door (0, 1, 2)
       const carDoor = Math.floor(Math.random() * 3);
-      // Player picks random door
       const playerChoice = Math.floor(Math.random() * 3);
 
-      // Stay strategy: wins if initial pick was car
       if (playerChoice === carDoor) {
         stayWins++;
       } else {
-        // Switch strategy: host MUST open the other goat door.
-        // Remaining unchosen door is guaranteed to be the car!
         switchWins++;
       }
     }
@@ -48,29 +32,101 @@ export function runMontyHallSimulationAsync(totalTrials = 10000, onProgress, onC
       stayWinRate: +((stayWins / trialsCompleted) * 100).toFixed(2)
     };
 
-    if (onProgress) {
-      onProgress(progress, currentStats);
-    }
+    if (onProgress) onProgress(progress, currentStats);
 
     if (trialsCompleted < totalTrials) {
       requestAnimationFrame(processChunk);
     } else {
-      if (onComplete) {
-        onComplete(currentStats);
-      }
+      if (onComplete) onComplete(currentStats);
     }
   }
 
   requestAnimationFrame(processChunk);
 }
 
-/**
- * Runs Parrondo's Paradox trajectories asynchronously.
- * Compares: Strategy 1 (Game A only), Strategy 2 (Game B only), Strategy 3 (Alternating ABBABB...)
- * @param {number} totalSteps Default 100 or 500
- * @param {function} onProgress
- * @param {function} onComplete
- */
+export function runStPetersburgSimulationAsync(totalGames = 10000, onProgress, onComplete) {
+  let gamesPlayed = 0;
+  let totalPayout = 0;
+  let maxPayout = 0;
+  const chunkSize = 500;
+
+  function processChunk() {
+    const end = Math.min(gamesPlayed + chunkSize, totalGames);
+
+    for (let i = gamesPlayed; i < end; i++) {
+      const { payout } = playStPetersburgGame();
+      totalPayout += payout;
+      if (payout > maxPayout) maxPayout = payout;
+    }
+
+    gamesPlayed = end;
+    const progress = Math.floor((gamesPlayed / totalGames) * 100);
+    const avgPayout = +(totalPayout / gamesPlayed).toFixed(2);
+
+    const snapshot = {
+      gamesPlayed,
+      totalGames,
+      totalPayout,
+      maxPayout,
+      avgPayout
+    };
+
+    if (onProgress) onProgress(progress, snapshot);
+
+    if (gamesPlayed < totalGames) {
+      requestAnimationFrame(processChunk);
+    } else {
+      if (onComplete) onComplete(snapshot);
+    }
+  }
+
+  requestAnimationFrame(processChunk);
+}
+
+export function runNewcombsSimulationAsync(totalTrials = 10000, onProgress, onComplete) {
+  let trialsDone = 0;
+  let boxBWins = 0;
+  let bothWins = 0;
+  let boxBTotalWon = 0;
+  let bothTotalWon = 0;
+  const chunkSize = 500;
+
+  function processChunk() {
+    const end = Math.min(trialsDone + chunkSize, totalTrials);
+
+    for (let i = trialsDone; i < end; i++) {
+      const resB = playNewcombsGame('boxB', 0.99);
+      const resBoth = playNewcombsGame('both', 0.99);
+
+      boxBTotalWon += resB.totalWon;
+      bothTotalWon += resBoth.totalWon;
+
+      if (resB.totalWon > 0) boxBWins++;
+      if (resBoth.totalWon > 1000) bothWins++;
+    }
+
+    trialsDone = end;
+    const progress = Math.floor((trialsDone / totalTrials) * 100);
+
+    const snapshot = {
+      trialsDone,
+      totalTrials,
+      avgBoxB: Math.round(boxBTotalWon / trialsDone),
+      avgBoth: Math.round(bothTotalWon / trialsDone)
+    };
+
+    if (onProgress) onProgress(progress, snapshot);
+
+    if (trialsDone < totalTrials) {
+      requestAnimationFrame(processChunk);
+    } else {
+      if (onComplete) onComplete(snapshot);
+    }
+  }
+
+  requestAnimationFrame(processChunk);
+}
+
 export function runParrondoSimulationAsync(totalSteps = 200, onProgress, onComplete) {
   let step = 0;
   let capA = 0;
@@ -88,15 +144,12 @@ export function runParrondoSimulationAsync(totalSteps = 200, onProgress, onCompl
     const end = Math.min(step + chunkSize, totalSteps);
 
     for (let s = step + 1; s <= end; s++) {
-      // Game A alone
       capA = stepParrondoGameA(capA);
       historyA.push(capA);
 
-      // Game B alone
       capB = stepParrondoGameB(capB);
       historyB.push(capB);
 
-      // Alternating strategy: A, B, B, A, B, B...
       if (s % 3 === 1) {
         capAlt = stepParrondoGameA(capAlt);
       } else {
@@ -122,26 +175,18 @@ export function runParrondoSimulationAsync(totalSteps = 200, onProgress, onCompl
       finalCapAlt: capAlt
     };
 
-    if (onProgress) {
-      onProgress(progress, dataSnapshot);
-    }
+    if (onProgress) onProgress(progress, dataSnapshot);
 
     if (step < totalSteps) {
       requestAnimationFrame(processChunk);
     } else {
-      if (onComplete) {
-        onComplete(dataSnapshot);
-      }
+      if (onComplete) onComplete(dataSnapshot);
     }
   }
 
   requestAnimationFrame(processChunk);
 }
 
-/**
- * Empirical Monte Carlo for Birthday Paradox
- * Runs numTrials room setups for group size n and counts match percentage.
- */
 export function runBirthdayMonteCarloAsync(groupSize = 23, numTrials = 1000, onProgress, onComplete) {
   let trialsDone = 0;
   let matchCount = 0;

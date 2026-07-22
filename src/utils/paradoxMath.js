@@ -1,13 +1,7 @@
 /**
- * Mathematical Utilities & Numerical Safety for Aha! Paradox Visualizer (Bangla Enabled)
+ * Mathematical Utilities & Numerical Safety for Aha! Paradox Visualizer
  */
 
-/**
- * Calculates Birthday Paradox probability safely without factorials.
- * P(match) = 1 - P(no match)
- * @param {number} n - Number of people in room
- * @returns {number} Probability between 0 and 1
- */
 export function calculateBirthdayProbability(n) {
   if (n <= 1) return 0;
   if (n > 365) return 1;
@@ -19,9 +13,6 @@ export function calculateBirthdayProbability(n) {
   return 1 - pNoMatch;
 }
 
-/**
- * Precomputes theoretical curve for 1..100 people
- */
 export function getBirthdayCurveData() {
   const labels = [];
   const data = [];
@@ -32,9 +23,6 @@ export function getBirthdayCurveData() {
   return { labels, data };
 }
 
-/**
- * Generates random birthdays (1 to 365) for n avatars and finds all matching pairs.
- */
 export function generateBirthdayTrial(n) {
   const avatars = [];
   const birthdayMap = new Map();
@@ -71,30 +59,68 @@ export function generateBirthdayTrial(n) {
   };
 }
 
-/**
- * Bangla Month & Day Formatter
- */
-export function formatDayOfYear(dayNum) {
-  const months = [
-    { name: 'জানুয়ারি', days: 31 }, { name: 'ফেব্রুয়ারি', days: 28 }, { name: 'মার্চ', days: 31 },
-    { name: 'এপ্রিল', days: 30 }, { name: 'মে', days: 31 }, { name: 'জুন', days: 30 },
-    { name: 'জুলাই', days: 31 }, { name: 'আগস্ট', days: 31 }, { name: 'সেপ্টেম্বর', days: 30 },
-    { name: 'অক্টোবর', days: 31 }, { name: 'নভেম্বর', days: 30 }, { name: 'ডিসেম্বর', days: 31 }
-  ];
-  
+export function formatDayOfYear(dayNum, lang = 'bn') {
+  const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthsBn = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+  const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
   let day = dayNum;
-  for (const m of months) {
-    if (day <= m.days) {
-      return `${m.name} ${day}`;
+  for (let i = 0; i < 12; i++) {
+    if (day <= days[i]) {
+      const monthName = lang === 'bn' ? monthsBn[i] : monthsEn[i];
+      return `${monthName} ${day}`;
     }
-    day -= m.days;
+    day -= days[i];
   }
-  return `ডিসেম্বর ৩১`;
+  return lang === 'bn' ? `ডিসেম্বর ৩১` : `Dec 31`;
 }
 
 /**
- * Parrondo's Paradox Step Calculations
+ * St. Petersburg Paradox Simulation Helper
+ * Flips a coin until Heads appears.
+ * Pot doubles each Tail: Heads on 1st flip = $2 (2^1), 2nd = $4 (2^2), 3rd = $8 (2^3)...
  */
+export function playStPetersburgGame() {
+  let flips = 1;
+  while (Math.random() < 0.5) {
+    flips++;
+    if (flips > 30) break; // Numerical safety cap
+  }
+  const payout = Math.pow(2, flips);
+  return { flips, payout };
+}
+
+/**
+ * Newcomb's Paradox Predictor Engine
+ * Predictor has accuracy (default 99%)
+ */
+export function playNewcombsGame(userChoice, predictorAccuracy = 0.99) {
+  // Choice: 'boxB' (One-Box) or 'both' (Two-Box)
+  const isPredictorCorrect = Math.random() < predictorAccuracy;
+
+  let predictedChoice = userChoice;
+  if (!isPredictorCorrect) {
+    predictedChoice = userChoice === 'boxB' ? 'both' : 'boxB';
+  }
+
+  // Predictor put $1,000,000 in Box B ONLY IF predictor predicted userChoice === 'boxB'
+  const boxBHasMillion = predictedChoice === 'boxB';
+  const boxAValue = 1000;
+  const boxBValue = boxBHasMillion ? 1000000 : 0;
+
+  const totalWon = userChoice === 'boxB' ? boxBValue : (boxAValue + boxBValue);
+
+  return {
+    userChoice,
+    predictedChoice,
+    isPredictorCorrect,
+    boxBHasMillion,
+    boxAValue,
+    boxBValue,
+    totalWon
+  };
+}
+
 export function stepParrondoGameA(capital, epsilon = 0.005) {
   const pWin = 0.49 - epsilon;
   const win = Math.random() < pWin;
@@ -108,19 +134,16 @@ export function stepParrondoGameB(capital, epsilon = 0.005) {
   return capital + (win ? 1 : -1);
 }
 
-/**
- * Classic Simpson's Paradox Dataset
- */
 export const DEFAULT_SIMPSONS_DATA = {
   treatmentA: {
     name: "চিকিৎসা A (সার্জারি)",
-    smallStones: { success: 81, total: 87 },   // 93.1%
-    largeStones: { success: 192, total: 263 }  // 73.0%
+    smallStones: { success: 81, total: 87 },
+    largeStones: { success: 192, total: 263 }
   },
   treatmentB: {
     name: "চিকিৎসা B (আল্ট্রাসাউন্ড)",
-    smallStones: { success: 234, total: 270 },  // 86.7%
-    largeStones: { success: 55, total: 80 }     // 68.8%
+    smallStones: { success: 234, total: 270 },
+    largeStones: { success: 55, total: 80 }
   }
 };
 

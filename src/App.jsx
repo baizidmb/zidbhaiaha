@@ -7,7 +7,7 @@ import AnchoringBias from './components/AnchoringBias.jsx';
 import SimpsonsParadox from './components/SimpsonsParadox.jsx';
 import ParrondosParadox from './components/ParrondosParadox.jsx';
 import Footer from './components/Footer.jsx';
-import { Play, Sparkles, Flame, Brain, BarChart2 } from 'lucide-react';
+import { Play, Sparkles, Flame, Brain, BarChart2, User } from 'lucide-react';
 import { playClickSound } from './utils/sound.js';
 
 export default function App() {
@@ -60,9 +60,9 @@ export default function App() {
                 <span className="px-3 py-1 rounded-full bg-[#ff7a00] text-slate-950 font-black text-[10px] uppercase tracking-wider shadow-glow-amber">
                   #1 TRENDING TODAY
                 </span>
-                <span className="text-xs text-white/60 font-mono flex items-center space-x-1">
-                  <Sparkles className="w-3.5 h-3.5 text-[#ff7a00]" />
-                  <span>{isBn ? '৯৯.৮% ইউজার রেটিং' : '99.8% User Rating'}</span>
+                <span className="text-xs text-white/80 font-mono flex items-center space-x-1">
+                  <User className="w-3.5 h-3.5 text-[#ff7a00]" />
+                  <span>{isBn ? 'শাহিদুল ইসলাম বাইজিদ দ্বারা নির্মিত' : 'Created by Shahidul Islam Baizid'}</span>
                 </span>
               </div>
 

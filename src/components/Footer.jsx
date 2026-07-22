@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Sparkles, HelpCircle, X, Award } from 'lucide-react';
+import { Sparkles, HelpCircle, X, Award, Heart, User } from 'lucide-react';
 import { playClickSound } from '../utils/sound.js';
 
-export default function Footer() {
+export default function Footer({ lang = 'bn' }) {
   const [showTrivia, setShowTrivia] = useState(false);
   const [currentTriviaIdx, setCurrentTriviaIdx] = useState(0);
+  const isBn = lang === 'bn';
 
   const triviaList = [
     {
@@ -35,15 +36,36 @@ export default function Footer() {
       {/* Cosmic Orange background glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-32 bg-[#ff7a00]/10 blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        
+        {/* Creator Highlight Banner */}
+        <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex items-center space-x-3">
+            <div className="p-2.5 rounded-xl bg-[#ff7a00]/15 border border-[#ff7a00]/40 text-[#ff7a00]">
+              <User className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono font-bold text-[#ff7a00] uppercase tracking-wider">
+                {isBn ? 'প্রকল্প নির্মাতা ও প্রকৌশলী' : 'PROJECT CREATOR & LEAD DEVELOPER'}
+              </span>
+              <h4 className="text-sm sm:text-base font-black text-white">
+                Shahidul Islam Baizid (শাহিদুল ইসলাম বাইজিদ)
+              </h4>
+            </div>
+          </div>
+          <span className="text-xs text-white/60 font-medium">
+            {isBn ? 'উদ্ভাবনী ওয়েব অভিজ্ঞতা ও গাণিতিক রিয়েল-টাইম ভিজ্যুয়ালাইজেশন' : 'Crafted with passion for interactive math & logic visualization'}
+          </span>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-2">
           
           {/* Brand & Quote */}
           <div className="space-y-1.5 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start space-x-2">
               <Sparkles className="w-4 h-4 text-[#ff7a00]" />
               <span className="font-black text-white tracking-wider text-xs sm:text-sm">
-                STREAM // MIND — COSMIC LIQUID GLOSS
+                STREAM // MIND — BY SHAHIDUL ISLAM BAIZID
               </span>
             </div>
             <p className="text-xs italic text-white/50 max-w-md">
@@ -58,13 +80,15 @@ export default function Footer() {
               className="flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] text-[#ff7a00] font-bold text-xs border border-[#ff7a00]/40 shadow-glow-amber transition-all touch-manipulation glossy-shine"
             >
               <Award className="w-4 h-4" />
-              <span>বোনাস প্যারাডক্স ট্র্যাভিয়া এক্সপ্লোর করুন</span>
+              <span>{isBn ? 'বোনাস প্যারাডক্স ট্র্যাভিয়া' : 'Bonus Paradox Trivia'}</span>
             </button>
           </div>
 
           {/* Credits */}
-          <div className="text-xs text-white/40 text-center md:text-right font-mono">
-            <span>React + Vite + Cosmic Liquid Gloss Design</span>
+          <div className="text-xs text-white/60 text-center md:text-right font-mono flex items-center justify-center md:justify-end space-x-1">
+            <span>Designed & Developed with</span>
+            <Heart className="w-3.5 h-3.5 text-red-500 fill-current inline" />
+            <span>by <strong className="text-white">Shahidul Islam Baizid</strong></span>
           </div>
 
         </div>

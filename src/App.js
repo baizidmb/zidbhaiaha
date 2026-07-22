@@ -7,7 +7,7 @@ import AnchoringBias from './components/AnchoringBias.js';
 import SimpsonsParadox from './components/SimpsonsParadox.js';
 import ParrondosParadox from './components/ParrondosParadox.js';
 import Footer from './components/Footer.js';
-import { Play, Sparkles, Flame, Brain, BarChart2 } from 'lucide-react';
+import { Play, Sparkles, Flame, Brain, BarChart2, User } from 'lucide-react';
 import { playClickSound } from './utils/sound.js';
 export default function App() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -52,10 +52,10 @@ export default function App() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "px-3 py-1 rounded-full bg-[#ff7a00] text-slate-950 font-black text-[10px] uppercase tracking-wider shadow-glow-amber"
   }, "#1 TRENDING TODAY"), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs text-white/60 font-mono flex items-center space-x-1"
-  }, /*#__PURE__*/React.createElement(Sparkles, {
+    className: "text-xs text-white/80 font-mono flex items-center space-x-1"
+  }, /*#__PURE__*/React.createElement(User, {
     className: "w-3.5 h-3.5 text-[#ff7a00]"
-  }), /*#__PURE__*/React.createElement("span", null, isBn ? '৯৯.৮% ইউজার রেটিং' : '99.8% User Rating'))), /*#__PURE__*/React.createElement("h2", {
+  }), /*#__PURE__*/React.createElement("span", null, isBn ? 'শাহিদুল ইসলাম বাইজিদ দ্বারা নির্মিত' : 'Created by Shahidul Islam Baizid'))), /*#__PURE__*/React.createElement("h2", {
     className: "text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight"
   }, isBn ? '🚗 গেম শো ফাঁদ (The Game Show Trap)' : '🚗 The Game Show Trap'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs sm:text-base text-white/80 font-medium leading-relaxed"

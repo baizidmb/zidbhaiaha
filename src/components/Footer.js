@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Sparkles, HelpCircle, X, Award } from 'lucide-react';
+import { Sparkles, HelpCircle, X, Award, Heart, User } from 'lucide-react';
 import { playClickSound } from '../utils/sound.js';
-export default function Footer() {
+export default function Footer({
+  lang = 'bn'
+}) {
   const [showTrivia, setShowTrivia] = useState(false);
   const [currentTriviaIdx, setCurrentTriviaIdx] = useState(0);
+  const isBn = lang === 'bn';
   const triviaList = [{
     title: "হিলবার্টের গ্র্যান্ড হোটেল প্যারাডক্স",
     fact: "একটি সম্পূর্ণ পূর্ণ অনন্ত (Infinite) রুম থাকা হোটেলে অসীমসংখ্যক নতুন অতিথি আসলেও সবাইকে জায়গা দেওয়া সম্ভব! শুধু ১ নম্বর রুমের অতিথিকে ২ নম্বরে, ২ নম্বরকে ৪ নম্বরে পাঠালে সব বিজোড় রুম ফাঁকা হয়ে যাবে!",
@@ -26,9 +29,23 @@ export default function Footer() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-32 bg-[#ff7a00]/10 blur-3xl pointer-events-none"
   }), /*#__PURE__*/React.createElement("div", {
-    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col md:flex-row items-center justify-between gap-6"
+    className: "p-4 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "p-2.5 rounded-xl bg-[#ff7a00]/15 border border-[#ff7a00]/40 text-[#ff7a00]"
+  }, /*#__PURE__*/React.createElement(User, {
+    className: "w-5 h-5"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-mono font-bold text-[#ff7a00] uppercase tracking-wider"
+  }, isBn ? 'প্রকল্প নির্মাতা ও প্রকৌশলী' : 'PROJECT CREATOR & LEAD DEVELOPER'), /*#__PURE__*/React.createElement("h4", {
+    className: "text-sm sm:text-base font-black text-white"
+  }, "Shahidul Islam Baizid (\u09B6\u09BE\u09B9\u09BF\u09A6\u09C1\u09B2 \u0987\u09B8\u09B2\u09BE\u09AE \u09AC\u09BE\u0987\u099C\u09BF\u09A6)"))), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-white/60 font-medium"
+  }, isBn ? 'উদ্ভাবনী ওয়েব অভিজ্ঞতা ও গাণিতিক রিয়েল-টাইম ভিজ্যুয়ালাইজেশন' : 'Crafted with passion for interactive math & logic visualization')), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col md:flex-row items-center justify-between gap-6 pt-2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "space-y-1.5 text-center md:text-left"
   }, /*#__PURE__*/React.createElement("div", {
@@ -37,7 +54,7 @@ export default function Footer() {
     className: "w-4 h-4 text-[#ff7a00]"
   }), /*#__PURE__*/React.createElement("span", {
     className: "font-black text-white tracking-wider text-xs sm:text-sm"
-  }, "STREAM // MIND \u2014 COSMIC LIQUID GLOSS")), /*#__PURE__*/React.createElement("p", {
+  }, "STREAM // MIND \u2014 BY SHAHIDUL ISLAM BAIZID")), /*#__PURE__*/React.createElement("p", {
     className: "text-xs italic text-white/50 max-w-md"
   }, "\"\u09B8\u09AE\u09CD\u09AD\u09BE\u09AC\u09CD\u09AF\u09A4\u09BE \u09B9\u09B2\u09CB \u09B8\u09BE\u09A7\u09BE\u09B0\u09A3 \u099C\u09CD\u099E\u09BE\u09A8\u0995\u09C7 \u0997\u09A3\u09BF\u09A4\u09C7 \u09B0\u09C2\u09AA\u09BE\u09A8\u09CD\u09A4\u09B0 \u0995\u09B0\u09BE\u09B0 \u09B6\u09BF\u09B2\u09CD\u09AA\u0964\" \u2014 \u09AA\u09BF\u09AF\u09BC\u09C7\u09B0\u09C7-\u09B8\u09BF\u09AE\u09A8 \u09B2\u09BE\u09AA\u09CD\u09B2\u09BE\u09B8")), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-4"
@@ -49,9 +66,13 @@ export default function Footer() {
     className: "flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] text-[#ff7a00] font-bold text-xs border border-[#ff7a00]/40 shadow-glow-amber transition-all touch-manipulation glossy-shine"
   }, /*#__PURE__*/React.createElement(Award, {
     className: "w-4 h-4"
-  }), /*#__PURE__*/React.createElement("span", null, "\u09AC\u09CB\u09A8\u09BE\u09B8 \u09AA\u09CD\u09AF\u09BE\u09B0\u09BE\u09A1\u0995\u09CD\u09B8 \u099F\u09CD\u09B0\u09CD\u09AF\u09BE\u09AD\u09BF\u09AF\u09BC\u09BE \u098F\u0995\u09CD\u09B8\u09AA\u09CD\u09B2\u09CB\u09B0 \u0995\u09B0\u09C1\u09A8"))), /*#__PURE__*/React.createElement("div", {
-    className: "text-xs text-white/40 text-center md:text-right font-mono"
-  }, /*#__PURE__*/React.createElement("span", null, "React + Vite + Cosmic Liquid Gloss Design")))), showTrivia && /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("span", null, isBn ? 'বোনাস প্যারাডক্স ট্র্যাভিয়া' : 'Bonus Paradox Trivia'))), /*#__PURE__*/React.createElement("div", {
+    className: "text-xs text-white/60 text-center md:text-right font-mono flex items-center justify-center md:justify-end space-x-1"
+  }, /*#__PURE__*/React.createElement("span", null, "Designed & Developed with"), /*#__PURE__*/React.createElement(Heart, {
+    className: "w-3.5 h-3.5 text-red-500 fill-current inline"
+  }), /*#__PURE__*/React.createElement("span", null, "by ", /*#__PURE__*/React.createElement("strong", {
+    className: "text-white"
+  }, "Shahidul Islam Baizid"))))), showTrivia && /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 z-50 flex items-center justify-center bg-[#030305]/85 backdrop-blur-2xl p-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "liquid-glass-card rounded-3xl p-5 sm:p-8 max-w-lg w-full border border-[#ff7a00]/40 shadow-2xl relative"

@@ -2,15 +2,16 @@
 <html lang="en" class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B82F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff7a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AHA! // Math & Logic Paradox Visualizer</title>
-    <meta name="description" content="Explore mind-bending mathematical and logical paradoxes interactively in real time: Birthday Paradox, Monty Hall Problem, Simpson's Paradox, and Parrondo's Paradox." />
+    <title>STREAM // MIND — By Shahidul Islam Baizid</title>
+    <meta name="author" content="Shahidul Islam Baizid" />
+    <meta name="description" content="Mind-Bending Mathematical & Logical Paradox Visualizer created by Shahidul Islam Baizid. Explore Birthday Paradox, Monty Hall, Hilbert's Infinite Hotel, and Anchoring Bias." />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@600;700&family=Noto+Sans+Bengali:wght@800;900&family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CDN with Custom Config Fallback -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,24 +21,13 @@
         theme: {
           extend: {
             colors: {
-              neon: {
-                blue: '#3B82F6',
-                purple: '#8B5CF6',
-                cyan: '#06B6D4',
-                pink: '#EC4899',
-                amber: '#F59E0B',
-                emerald: '#10B981'
+              cosmic: {
+                orange: '#ff7a00'
               }
             },
             fontFamily: {
-              sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+              sans: ['Outfit', 'Hind Siliguri', 'Noto Sans Bengali', 'sans-serif'],
               mono: ['Fira Code', 'monospace']
-            },
-            boxShadow: {
-              'glow-blue': '0 0 25px -5px rgba(59, 130, 246, 0.4)',
-              'glow-purple': '0 0 25px -5px rgba(139, 92, 246, 0.4)',
-              'glow-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.4)',
-              'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.4)'
             }
           }
         }
@@ -62,7 +52,7 @@
     }
     </script>
   </head>
-  <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-blue-500 selection:text-white min-h-screen overflow-x-hidden">
+  <body class="bg-[#030305] text-slate-100 font-sans antialiased selection:bg-[#ff7a00] selection:text-white min-h-screen overflow-x-hidden">
     <div id="root"></div>
 
     <!-- Pure ES Module entrypoint (Transpiled JS) -->

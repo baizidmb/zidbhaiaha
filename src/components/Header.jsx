@@ -42,7 +42,7 @@ export default function Header({ activeFilter, setActiveFilter, lang, setLang, s
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3">
           
-          {/* Cosmic Orange Brand Badge */}
+          {/* Cosmic Orange Brand Badge with Creator Name */}
           <div className="flex items-center space-x-3 cursor-pointer w-full md:w-auto justify-between md:justify-start group" onClick={() => handleNavClick('all')}>
             <div className="flex items-center space-x-3">
               <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-[#ff7a00] to-[#ff3c00] p-0.5 shadow-glow-amber transition-transform duration-300 group-hover:scale-105">
@@ -56,7 +56,7 @@ export default function Header({ activeFilter, setActiveFilter, lang, setLang, s
                     STREAM <span className="text-[#ff7a00] font-mono text-xs font-normal">//</span> MIND
                   </h1>
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#ff7a00]/15 border border-[#ff7a00]/40 text-[#ff7a00] font-black uppercase">
-                    COSMIC GLOSS
+                    BY SHAHIDUL ISLAM BAIZID
                   </span>
                 </div>
               </div>

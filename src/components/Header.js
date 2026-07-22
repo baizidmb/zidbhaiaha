@@ -83,7 +83,7 @@ export default function Header({
     className: "text-[#ff7a00] font-mono text-xs font-normal"
   }, "//"), " MIND"), /*#__PURE__*/React.createElement("span", {
     className: "text-[9px] font-mono px-2 py-0.5 rounded-full bg-[#ff7a00]/15 border border-[#ff7a00]/40 text-[#ff7a00] font-black uppercase"
-  }, "COSMIC GLOSS")))), /*#__PURE__*/React.createElement("div", {
+  }, "BY SHAHIDUL ISLAM BAIZID")))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2 md:hidden"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: e => {
